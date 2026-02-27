@@ -24,7 +24,7 @@
         <!-- Header Text -->
         <div class="text-white w-100 mb-6">
           <h1 class="text-h3 font-weight-bold mb-4">
-            Welcome to JEIC 2026 Registration
+            Welcome to JEIC 2026
           </h1>
           <p class="text-subtitle-1 opacity-90">
             Thank you for your interest in the Jordan-EU Investment Conference. Please review and agree to our data
