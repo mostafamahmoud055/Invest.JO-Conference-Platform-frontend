@@ -41,6 +41,12 @@
         You have successfully registered!
       </template>
     </v-snackbar>
+    <v-snackbar v-model="showErrorMessage" color="error" location="top">
+      <template v-slot:default>
+        <v-icon class="me-2">mdi-alert-circle</v-icon>
+        {{ errorMessage }}
+      </template>
+    </v-snackbar>
 
     <!-- Registration Card -->
     <v-row class="px-4 pb-12 d-block">
@@ -137,7 +143,7 @@
                       v-model="formData.passportFile"
                       density="compact" 
                       variant="compact"
-                      accept="image/jpeg,image/png,application/pdf"
+                      accept="image/jpeg,image/png,image/jpg"
                     ></v-file-upload>
                   </v-col>
                                     <v-col cols="12" md="6">
@@ -391,7 +397,8 @@
               color="#003192" 
               class="text-none px-10 rounded-lg text-white" 
               elevation="0"
-              :disabled="!isCurrentStepValid()"
+              :disabled="!isCurrentStepValid() || isSubmitting"
+              :loading="isSubmitting"
               @click="submitForm">
               <v-icon start icon="mdi-check-circle-outline"></v-icon> Submit
             </v-btn>
@@ -404,12 +411,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const currentStep = ref(1)
 const showSuccessMessage = ref(false)
+const showErrorMessage = ref(false)
+const errorMessage = ref('')
+const isSubmitting = ref(false)
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
 
 const countries = [
   'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia',
@@ -500,18 +511,95 @@ const isCurrentStepValid = () => {
   }
 }
 
+const getPassportFile = () => {
+  if (!Array.isArray(formData.value.passportFile) || formData.value.passportFile.length === 0) {
+    return null
+  }
+
+  const raw = formData.value.passportFile[0]
+  return raw?.raw || raw?.file || raw
+}
+
+const buildRegistrationPayload = () => {
+  const payload = new FormData()
+  const isJordanian = formData.value.nationality === 'Jordanian'
+  const lastName = isJordanian ? formData.value.familyName : formData.value.lastName
+  const normalizedPhone = formData.value.phoneNumber
+    ? `${formData.value.phoneCode}${formData.value.phoneNumber}`.replace(/\s+/g, '')
+    : ''
+
+  payload.append('email', formData.value.email)
+  payload.append('first_name', formData.value.firstName)
+  payload.append('last_name', lastName || '')
+  payload.append('job_title', formData.value.jobTitle)
+  payload.append('company', formData.value.company)
+  payload.append('industry', formData.value.industry)
+  payload.append('website', formData.value.website)
+  payload.append('nationality', formData.value.nationality)
+  payload.append('country', formData.value.country)
+  payload.append('arrival_date', formData.value.arrivalDate)
+  payload.append('arrival_time', formData.value.arrivalTime)
+  payload.append('departure_date', formData.value.departureDate)
+  payload.append('departure_time', formData.value.departureTime)
+
+  if (normalizedPhone) payload.append('phone', normalizedPhone)
+  if (formData.value.bio) payload.append('bio', formData.value.bio)
+  if (formData.value.linkedinUrl) payload.append('linked_in_profile', formData.value.linkedinUrl)
+
+  if (isJordanian) {
+    payload.append('middle_name', formData.value.middleName)
+    payload.append('family_name', formData.value.familyName)
+    payload.append('national_id', formData.value.nationalId)
+  } else {
+    const passport = getPassportFile()
+    if (passport) payload.append('passport_image', passport)
+  }
+
+  return payload
+}
+
+const getApiErrorMessage = (result) => {
+  if (result?.errors && typeof result.errors === 'object') {
+    const firstKey = Object.keys(result.errors)[0]
+    if (firstKey && Array.isArray(result.errors[firstKey]) && result.errors[firstKey][0]) {
+      return result.errors[firstKey][0]
+    }
+  }
+
+  return result?.message || 'Failed to submit registration form.'
+}
+
 const submitForm = async () => {
-  if (isCurrentStepValid()) {
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData.value)
-    
-    // Show success message
+  if (!isCurrentStepValid() || isSubmitting.value) return
+
+  isSubmitting.value = true
+  showErrorMessage.value = false
+  errorMessage.value = ''
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/api/register`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json'
+      },
+      body: buildRegistrationPayload()
+    })
+
+    const result = await response.json().catch(() => ({}))
+
+    if (!response.ok) {
+      throw new Error(getApiErrorMessage(result))
+    }
+
     showSuccessMessage.value = true
-    
-    // Redirect after delay
     setTimeout(() => {
       router.push('/')
     }, 2000)
+  } catch (error) {
+    errorMessage.value = error?.message || 'Something went wrong while submitting the form.'
+    showErrorMessage.value = true
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
