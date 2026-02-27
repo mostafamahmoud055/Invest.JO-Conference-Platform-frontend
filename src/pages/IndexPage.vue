@@ -15,7 +15,7 @@
             rounded="lg"
             size="large"
           >
-            Register
+            Request Invitation
           </v-btn>
         </router-link>
       </v-col>

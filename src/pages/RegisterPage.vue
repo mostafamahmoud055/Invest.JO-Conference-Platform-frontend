@@ -5,643 +5,1138 @@
       <v-row align="center" no-gutters>
         <v-col>
           <router-link to="/" class="text-decoration-none">
-            <v-btn variant="text" prepend-icon="mdi-arrow-left" class="text-none text-white" color="white">
+            <v-btn
+              variant="text"
+              prepend-icon="mdi-arrow-left"
+              class="text-none text-white"
+              color="white"
+            >
               Back to Home
             </v-btn>
           </router-link>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col class="text-right">
-          <v-btn variant="text" class="text-white font-weight-bold" size="large">
-            MENU
-            <v-icon end icon="mdi-menu" color="amber-darken-2"></v-icon>
-          </v-btn>
-        </v-col>
+
+        <!-- Removed MENU -->
       </v-row>
     </v-container>
 
     <!-- Header Text -->
-    <v-container
-    >
+    <v-container>
+      <div class="text-start text-white ml-5 max-content-container">
+        <h1 class="text-h3 font-weight-bold mb-4">
+          Welcome to JEIC 2026 Registration
+        </h1>
+        <p class="text-subtitle-1 mb-3 opacity-90">
+          Thank you for your interest in the Jordan-EU Investment Conference.
+          Please review and agree to our data protection policies before
+          proceeding.
+        </p>
+      </div>
 
-    <div class="text-start text-white ml-5 max-content-container">
-      <h1 class="text-h3 font-weight-bold mb-4">
-        Welcome to JEIC 2026 Registration
-      </h1>
-      <p class="text-subtitle-1 mb-3 opacity-90">
-        Thank you for your interest in the Jordan-EU Investment Conference. Please review and agree to our data
-        protection policies before proceeding.
-      </p>
-    </div>
+      <!-- Success Alert -->
+      <v-snackbar v-model="showSuccessMessage" color="success" location="top">
+        <template v-slot:default>
+          <v-icon class="me-2">mdi-check-circle</v-icon>
+          You have successfully registered!
+        </template>
+      </v-snackbar>
+      <v-snackbar v-model="showErrorMessage" color="error" location="top">
+        <template v-slot:default>
+          <v-icon class="me-2">mdi-alert-circle</v-icon>
+          {{ errorMessage }}
+        </template>
+      </v-snackbar>
 
-    <!-- Success Alert -->
-    <v-snackbar v-model="showSuccessMessage" color="success" location="top">
-      <template v-slot:default>
-        <v-icon class="me-2">mdi-check-circle</v-icon>
-        You have successfully registered!
-      </template>
-    </v-snackbar>
-    <v-snackbar v-model="showErrorMessage" color="error" location="top">
-      <template v-slot:default>
-        <v-icon class="me-2">mdi-alert-circle</v-icon>
-        {{ errorMessage }}
-      </template>
-    </v-snackbar>
-
-    <!-- Registration Card -->
-    <v-row class="px-4 pb-12 d-block">
-      <v-col cols="12">
-        <v-card class="registration-card rounded-xl pa-6 pa-md-10" elevation="0">
-          <!-- Stepper -->
-          <v-row class="mb-10 justify-center">
-            <v-col cols="12">
-              <div class="stepper-container">
-                <div v-for="(step, index) in steps" :key="index" class="stepper-item"
-                  :class="{ 'active': currentStep === index + 1, 'completed': currentStep > index + 1 }">
-                  <div class="step-circle">
-                    <v-icon v-if="currentStep > index + 1" icon="mdi-check" size="small"></v-icon>
-                    <span v-else>{{ index + 1 }}</span>
+      <!-- Registration Card -->
+      <v-row class="px-4 pb-12 d-block">
+        <v-col cols="12">
+          <v-card
+            class="registration-card rounded-xl pa-6 pa-md-10"
+            elevation="0"
+          >
+            <!-- Stepper -->
+            <v-row class="mb-10 justify-center">
+              <v-col cols="12">
+                <div class="stepper-container">
+                  <div
+                    v-for="(step, index) in steps"
+                    :key="index"
+                    class="stepper-item"
+                    :class="{
+                      active: currentStep === index + 1,
+                      completed: currentStep > index + 1,
+                    }"
+                  >
+                    <div class="step-circle">
+                      <v-icon
+                        v-if="currentStep > index + 1"
+                        icon="mdi-check"
+                        size="small"
+                      ></v-icon>
+                      <span v-else>{{ index + 1 }}</span>
+                    </div>
+                    <div class="step-label d-none d-sm-block">
+                      <div class="label-title">{{ step.title }}</div>
+                      <div class="label-subtitle">{{ step.subtitle }}</div>
+                    </div>
+                    <div
+                      v-if="index < steps.length - 1"
+                      class="step-line"
+                    ></div>
                   </div>
-                  <div class="step-label d-none d-sm-block">
-                    <div class="label-title">{{ step.title }}</div>
-                    <div class="label-subtitle">{{ step.subtitle }}</div>
-                  </div>
-                  <div v-if="index < steps.length - 1" class="step-line"></div>
                 </div>
-              </div>
-            </v-col>
-          </v-row>
+              </v-col>
+            </v-row>
 
-          <!-- Form Windows -->
-          <v-window v-model="currentStep">
-            <!-- Step 1: Personal Information -->
-            <v-window-item :value="1">
-              <h2 class="text-h5 font-weight-bold mb-6">Personal Information</h2>
-              <v-form @submit.prevent>
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Nationality *</label>
-                    <v-select 
-                      v-model="formData.nationality"
-                      label="Select nationality" 
-                      variant="outlined"
-                      :items="['Jordanian', 'European']" 
-                    ></v-select>
-                  </v-col>
-                </v-row>
+            <!-- Form Windows -->
+            <v-window v-model="currentStep">
+              <!-- Step 1: Personal Information -->
+              <v-window-item :value="1">
+                <h2 class="text-h5 font-weight-bold mb-6">
+                  Personal Information
+                </h2>
+                <v-form @submit.prevent>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Nationality *</label>
+                      <v-select
+                        v-model="formData.nationality"
+                        label="Select nationality"
+                        variant="outlined"
+                        :items="[
+                          'Jordanian',
+                          'European',
+                          'United Arab Emirates',
+                          'Saudi Arabia',
+                          'Qatar',
+                          'Kuwait',
+                          'Bahrain',
+                          'Oman',
+                          'Palestine',
+                          'United Kingdom',
+                          'Germany',
+                          'France',
+                          'Italy',
+                          'Spain',
+                          'Netherlands',
+                          'Sweden',
+                          'Switzerland',
+                          'United States',
+                          'Canada',
+                          'Australia',
+                          'Other',
+                        ]"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
 
-                <!-- Jordanian Fields -->
-                <v-row v-if="formData.nationality === 'Jordanian'">
-                  <v-col cols="12" md="6">
-                    <label class="input-label">First Name *</label>
-                    <v-text-field 
-                      v-model="formData.firstName"
-                      placeholder="Enter your first name" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'First Name is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Middle Name *</label>
-                    <v-text-field 
-                      v-model="formData.middleName"
-                      placeholder="Enter your middle name" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'Middle Name is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Family Name *</label>
-                    <v-text-field 
-                      v-model="formData.familyName"
-                      placeholder="Enter your family name" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'Family Name is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">National ID *</label>
-                    <v-text-field 
-                      v-model="formData.nationalId"
-                      placeholder="Enter your national ID" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'National ID is required']"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
+                  <!-- Jordanian Fields -->
+                  <v-row v-if="formData.nationality === 'Jordanian'">
+                    <v-col cols="12" md="6">
+                      <label class="input-label">First Name *</label>
+                      <v-text-field
+                        v-model="formData.firstName"
+                        placeholder="Enter your first name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'First Name is required']"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Father’s Name *</label>
+                      <v-text-field
+                        v-model="formData.middleName"
+                        placeholder="Enter your father's name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Father’s Name is required']"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Grandfather’s Name *</label>
+                      <v-text-field
+                        v-model="formData.nationalId"
+                        placeholder="Enter your Grandfather’s Name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[
+                          (v) => !!v || 'Grandfather’s Name is required',
+                        ]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Family Name *</label>
+                      <v-text-field
+                        v-model="formData.familyName"
+                        placeholder="Enter your family name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Family Name is required']"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
 
-                <!-- European Fields -->
-                <v-row v-if="formData.nationality === 'European'">
+                  <!-- European Fields -->
+                  <v-row v-if="formData.nationality === 'European'">
+                    <v-col cols="12">
+                      <label class="input-label">Passport Copy *</label>
+                      <v-file-upload
+                        v-model="formData.passportFile"
+                        density="compact"
+                        variant="compact"
+                        accept="image/jpeg,image/png,image/jpg"
+                      ></v-file-upload>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">First Name *</label>
+                      <v-text-field
+                        v-model="formData.firstName"
+                        placeholder="Enter your first name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'First Name is required']"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Last Name *</label>
+                      <v-text-field
+                        v-model="formData.lastName"
+                        placeholder="Enter your last name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Last Name is required']"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-window-item>
 
-                  <v-col cols="12">
-                    <label class="input-label">Passport Copy *</label>
-                    <v-file-upload 
-                      v-model="formData.passportFile"
-                      density="compact" 
-                      variant="compact"
-                      accept="image/jpeg,image/png,image/jpg"
-                    ></v-file-upload>
-                  </v-col>
-                                    <v-col cols="12" md="6">
-                    <label class="input-label">First Name *</label>
-                    <v-text-field 
-                      v-model="formData.firstName"
-                      placeholder="Enter your first name" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'First Name is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Last Name *</label>
-                    <v-text-field 
-                      v-model="formData.lastName"
-                      placeholder="Enter your last name" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'Last Name is required']"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-window-item>
+              <!-- Step 2: Contact Information -->
+              <v-window-item :value="2">
+                <h2 class="text-h5 font-weight-bold mb-6">
+                  Contact Information
+                </h2>
+                <v-form @submit.prevent>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Email Address *</label>
+                      <v-text-field
+                        v-model="formData.email"
+                        placeholder="your.email@company.com"
+                        variant="outlined"
+                        density="comfortable"
+                        type="email"
+                        :rules="[
+                          (v) => !!v || 'Email is required',
+                          (v) =>
+                            /^\S+@\S+\.\S+$/.test(v) || 'Email must be valid',
+                        ]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Phone Number (Optional)</label>
+                      <v-row no-gutters>
+                        <v-col cols="4" class="pe-2">
+                          <v-select
+                            v-model="formData.phoneCode"
+                            :items="[
+                              '+962',
+                              '+44',
+                              '+1',
+                              '+93',
+                              '+355',
+                              '+213',
+                              '+376',
+                              '+244',
+                              '+54',
+                              '+374',
+                              '+61',
+                              '+43',
+                              '+994',
+                              '+973',
+                              '+880',
+                              '+375',
+                              '+32',
+                              '+501',
+                              '+229',
+                              '+975',
+                              '+591',
+                              '+387',
+                              '+267',
+                              '+55',
+                              '+673',
+                              '+359',
+                              '+226',
+                              '+257',
+                              '+855',
+                              '+237',
+                              '+1',
+                              '+238',
+                              '+236',
+                              '+235',
+                              '+56',
+                              '+86',
+                              '+57',
+                              '+269',
+                              '+242',
+                              '+506',
+                              '+225',
+                              '+385',
+                              '+53',
+                              '+357',
+                              '+420',
+                              '+45',
+                              '+253',
+                              '+1',
+                              '+593',
+                              '+20',
+                              '+503',
+                              '+240',
+                              '+291',
+                              '+372',
+                              '+251',
+                              '+679',
+                              '+358',
+                              '+33',
+                              '+241',
+                              '+220',
+                              '+995',
+                              '+49',
+                              '+233',
+                              '+30',
+                              '+502',
+                              '+224',
+                              '+245',
+                              '+592',
+                              '+509',
+                              '+504',
+                              '+36',
+                              '+354',
+                              '+91',
+                              '+62',
+                              '+98',
+                              '+964',
+                              '+353',
+                              '+972',
+                              '+39',
+                              '+81',
+                              '+7',
+                              '+254',
+                              '+965',
+                              '+996',
+                              '+856',
+                              '+371',
+                              '+961',
+                              '+266',
+                              '+231',
+                              '+218',
+                              '+423',
+                              '+370',
+                              '+352',
+                              '+261',
+                              '+265',
+                              '+60',
+                              '+960',
+                              '+223',
+                              '+356',
+                              '+222',
+                              '+230',
+                              '+52',
+                              '+373',
+                              '+377',
+                              '+976',
+                              '+382',
+                              '+212',
+                              '+258',
+                              '+95',
+                              '+264',
+                              '+977',
+                              '+31',
+                              '+64',
+                              '+505',
+                              '+227',
+                              '+234',
+                              '+850',
+                              '+47',
+                              '+968',
+                              '+92',
+                              '+970',
+                              '+507',
+                              '+675',
+                              '+595',
+                              '+51',
+                              '+63',
+                              '+48',
+                              '+351',
+                              '+974',
+                              '+40',
+                              '+7',
+                              '+250',
+                              '+966',
+                              '+221',
+                              '+381',
+                              '+248',
+                              '+232',
+                              '+65',
+                              '+421',
+                              '+386',
+                              '+252',
+                              '+27',
+                              '+82',
+                              '+211',
+                              '+34',
+                              '+94',
+                              '+249',
+                              '+597',
+                              '+46',
+                              '+41',
+                              '+963',
+                              '+886',
+                              '+992',
+                              '+255',
+                              '+66',
+                              '+228',
+                              '+216',
+                              '+90',
+                              '+993',
+                              '+256',
+                              '+380',
+                              '+971',
+                              '+598',
+                              '+998',
+                              '+678',
+                              '+58',
+                              '+84',
+                              '+967',
+                              '+260',
+                              '+263',
+                            ]"
+                            label="Choose Country"
+                            variant="outlined"
+                            density="comfortable"
+                            prepend-inner-icon="mdi-flag-outline"
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="8">
+                          <v-text-field
+                            v-model="formData.phoneNumber"
+                            placeholder="000 0000"
+                            variant="outlined"
+                            density="comfortable"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-window-item>
 
-            <!-- Step 2: Contact Information -->
-            <v-window-item :value="2">
-              <h2 class="text-h5 font-weight-bold mb-6">Contact Information</h2>
-              <v-form @submit.prevent>
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Email Address *</label>
-                    <v-text-field 
-                      v-model="formData.email"
-                      placeholder="your.email@company.com" 
-                      variant="outlined"
-                      density="comfortable"
-                      type="email"
-                      :rules="[v => !!v || 'Email is required', v => /^\S+@\S+\.\S+$/.test(v) || 'Email must be valid']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Phone Number (Optional)</label>
-                    <v-row no-gutters>
-                      <v-col cols="4" class="pe-2">
-                        <v-select 
-                          v-model="formData.phoneCode"
-                          :items="['+962', '+44', '+1']" 
-                          label="Choose Country"
-                          variant="outlined" 
-                          density="comfortable"
-                          prepend-inner-icon="mdi-flag-outline"
-                        ></v-select>
-                      </v-col>
-                      <v-col cols="8">
-                        <v-text-field 
-                          v-model="formData.phoneNumber"
-                          placeholder="000 0000" 
-                          variant="outlined" 
-                          density="comfortable"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-window-item>
+              <!-- Step 3: Professional Details -->
+              <v-window-item :value="3">
+                <h2 class="text-h5 font-weight-bold mb-6">
+                  Professional Details
+                </h2>
+                <v-form @submit.prevent>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Job Title *</label>
+                      <v-text-field
+                        v-model="formData.jobTitle"
+                        placeholder="e.g., Managing Director"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Job Title is required']"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Entity *</label>
+                      <v-text-field
+                        v-model="formData.company"
+                        placeholder="Your Entity name"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Entity is required']"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Official Website *</label>
+                      <v-text-field
+                        v-model="formData.website"
+                        placeholder="Provide URL"
+                        variant="outlined"
+                        density="comfortable"
+                        type="url"
+                        :rules="[(v) => !!v || 'Website is required']"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Sector *</label>
+                      <v-select
+                        v-model="formData.industry"
+                        label="Select an Sector"
+                        :items="[
+                          'Investment',
+                          'Tech',
+                          'Trade',
+                          'Finance',
+                          'Manufacturing',
+                          'Governmental',
+                          'Humanitarian',
+                          'Digital & Technology',
+                          'Water',
+                          'Energy',
+                          'Transport & Logistic',
+                          'Regional Gateways',
+                          'High value Industries',
+                          'Financial Institutions',
+                          'Other',
+                        ]"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Industry is required']"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Country *</label>
+                      <v-select
+                        v-model="formData.country"
+                        label="Select your country"
+                        :items="countries"
+                        variant="outlined"
+                        density="comfortable"
+                        :rules="[(v) => !!v || 'Country is required']"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-window-item>
 
-            <!-- Step 3: Professional Details -->
-            <v-window-item :value="3">
-              <h2 class="text-h5 font-weight-bold mb-6">Professional Details</h2>
-              <v-form @submit.prevent>
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Job Title *</label>
-                    <v-text-field 
-                      v-model="formData.jobTitle"
-                      placeholder="e.g., Managing Director" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'Job Title is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Company *</label>
-                    <v-text-field 
-                      v-model="formData.company"
-                      placeholder="Your company name" 
-                      variant="outlined" 
-                      density="comfortable"
-                      :rules="[v => !!v || 'Company is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Official Website *</label>
-                    <v-text-field 
-                      v-model="formData.website"
-                      placeholder="Provide URL" 
-                      variant="outlined" 
-                      density="comfortable"
-                      type="url"
-                      :rules="[v => !!v || 'Website is required']"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Industry *</label>
-                    <v-select 
-                      v-model="formData.industry"
-                      label="Select an industry" 
-                      :items="['Investment', 'Tech', 'Trade', 'Finance', 'Manufacturing', 'Other']" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'Industry is required']"
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Country *</label>
-                    <v-select 
-                      v-model="formData.country"
-                      label="Select your country" 
-                      :items="countries" 
-                      variant="outlined"
-                      density="comfortable"
-                      :rules="[v => !!v || 'Country is required']"
-                    ></v-select>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-window-item>
+              <!-- Step 4: About You -->
+              <v-window-item :value="4">
+                <h2 class="text-h5 font-weight-bold mb-6">About You</h2>
+                <v-form @submit.prevent>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <label class="input-label"
+                        >LinkedIn Profile URL (Optional)</label
+                      >
+                      <v-text-field
+                        v-model="formData.linkedinUrl"
+                        placeholder="https://linkedin.com/in/yourprofile"
+                        variant="outlined"
+                        density="comfortable"
+                        type="url"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <label class="input-label"
+                        >Professional Bio (Optional)</label
+                      >
+                      <v-textarea
+                        v-model="formData.bio"
+                        placeholder="Share your professional background (optional)"
+                        variant="outlined"
+                        density="comfortable"
+                        rows="6"
+                        counter="500"
+                        maxlength="500"
+                      ></v-textarea>
+                      <p class="text-caption text-grey mt-2">
+                        {{ formData.bio ? formData.bio.length : 0 }} characters
+                      </p>
+                    </v-col>
+                  </v-row>
+                </v-form>
+              </v-window-item>
 
-            <!-- Step 4: About You -->
-            <v-window-item :value="4">
-              <h2 class="text-h5 font-weight-bold mb-6">About You</h2>
-              <v-form @submit.prevent>
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">LinkedIn Profile URL (Optional)</label>
-                    <v-text-field
-                      v-model="formData.linkedinUrl"
-                      placeholder="https://linkedin.com/in/yourprofile"
-                      variant="outlined"
-                      density="comfortable"
-                      type="url"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <label class="input-label">Professional Bio *</label>
-                    <v-textarea
-                      v-model="formData.bio"
-                      placeholder="Share your professional background"
-                      variant="outlined"
-                      density="comfortable"
-                      rows="6"
-                      counter="500"
-                      maxlength="500"
-                      :rules="[v => !!v || 'Bio is required', v => v.length >= 20 || 'Minimum 20 characters required']"
-                    ></v-textarea>
-                    <p class="text-caption text-grey mt-2">{{ formData.bio.length }} characters (minimum 20 required)</p>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-window-item>
+              <!-- Step 5: Travel Information -->
+              <v-window-item :value="5">
+                <h2 class="text-h5 font-weight-bold mb-6">
+                  Travel Information
+                </h2>
+                <v-form @submit.prevent>
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Arrival *</label>
+                      <v-text-field
+                        v-model="formData.arrivalDate"
+                        prepend-inner-icon="mdi-calendar"
+                        placeholder="Select date (YYYY-MM-DD)"
+                        variant="outlined"
+                        density="comfortable"
+                        type="date"
+                        :rules="[(v) => !!v || 'Arrival date is required']"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="formData.arrivalTime"
+                        prepend-inner-icon="mdi-clock-outline"
+                        placeholder="Select time (HH:MM)"
+                        variant="outlined"
+                        density="comfortable"
+                        type="time"
+                        class="mt-3"
+                        :rules="[(v) => !!v || 'Arrival time is required']"
+                      ></v-text-field>
+                      <p class="text-caption text-grey mt-2">
+                        Queen Alia International Airport (AMM)
+                      </p>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <label class="input-label">Departure *</label>
+                      <v-text-field
+                        v-model="formData.departureDate"
+                        prepend-inner-icon="mdi-calendar"
+                        placeholder="Select date (YYYY-MM-DD)"
+                        variant="outlined"
+                        density="comfortable"
+                        type="date"
+                        :rules="[(v) => !!v || 'Departure date is required']"
+                      ></v-text-field>
+                      <v-text-field
+                        v-model="formData.departureTime"
+                        prepend-inner-icon="mdi-clock-outline"
+                        placeholder="Select time (HH:MM)"
+                        variant="outlined"
+                        density="comfortable"
+                        type="time"
+                        class="mt-3"
+                        :rules="[(v) => !!v || 'Departure time is required']"
+                      ></v-text-field>
+                      <p class="text-caption text-grey mt-2">
+                        Queen Alia International Airport (AMM)
+                      </p>
+                    </v-col>
+                  </v-row>
+                  <v-alert
+                    color="#f8faf0"
+                    class="mt-6 border-none text-black airport-alert"
+                    rounded="lg"
+                  >
+                    <div
+                      class="text-subtitle-2 font-weight-bold text-light-green-darken-3"
+                    >
+                      Airport Transfer Service
+                    </div>
+                    <div class="text-body-2 text-light-green-darken-2">
+                      Complimentary pickup and drop-off to Dead Sea
+                    </div>
+                    <div class="text-caption text-light-green-darken-1">
+                      A driver will meet you at the arrivals hall with your name
+                      displayed. Travel time approximately 45 minutes.
+                    </div>
+                  </v-alert>
+                </v-form>
+              </v-window-item>
+            </v-window>
 
-            <!-- Step 5: Travel Information -->
-            <v-window-item :value="5">
-              <h2 class="text-h5 font-weight-bold mb-6">Travel Information</h2>
-              <v-form @submit.prevent>
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Arrival *</label>
-                    <v-text-field 
-                      v-model="formData.arrivalDate"
-                      prepend-inner-icon="mdi-calendar" 
-                      placeholder="Select date (YYYY-MM-DD)" 
-                      variant="outlined"
-                      density="comfortable"
-                      type="date"
-                      :rules="[v => !!v || 'Arrival date is required']"
-                    ></v-text-field>
-                    <v-text-field 
-                      v-model="formData.arrivalTime"
-                      prepend-inner-icon="mdi-clock-outline" 
-                      placeholder="Select time (HH:MM)" 
-                      variant="outlined"
-                      density="comfortable"
-                      type="time"
-                      class="mt-3"
-                      :rules="[v => !!v || 'Arrival time is required']"
-                    ></v-text-field>
-                    <p class="text-caption text-grey mt-2">Queen Alia International Airport (AMM)</p>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <label class="input-label">Departure *</label>
-                    <v-text-field 
-                      v-model="formData.departureDate"
-                      prepend-inner-icon="mdi-calendar" 
-                      placeholder="Select date (YYYY-MM-DD)" 
-                      variant="outlined"
-                      density="comfortable"
-                      type="date"
-                      :rules="[v => !!v || 'Departure date is required']"
-                    ></v-text-field>
-                    <v-text-field 
-                      v-model="formData.departureTime"
-                      prepend-inner-icon="mdi-clock-outline" 
-                      placeholder="Select time (HH:MM)" 
-                      variant="outlined"
-                      density="comfortable"
-                      type="time"
-                      class="mt-3"
-                      :rules="[v => !!v || 'Departure time is required']"
-                    ></v-text-field>
-                    <p class="text-caption text-grey mt-2">Queen Alia International Airport (AMM)</p>
-                  </v-col>
-                </v-row>
-                <v-alert color="#f8faf0" class="mt-6 border-none text-black airport-alert" rounded="lg">
-                  <div class="text-subtitle-2 font-weight-bold text-light-green-darken-3">Airport Transfer Service</div>
-                  <div class="text-body-2 text-light-green-darken-2">Complimentary pickup and drop-off to Dead Sea</div>
-                  <div class="text-caption text-light-green-darken-1">A driver will meet you at the arrivals hall with
-                    your name displayed. Travel time approximately 45 minutes.</div>
-                </v-alert>
-              </v-form>
-            </v-window-item>
-          </v-window>
-
-          <!-- Navigation Buttons -->
-          <v-divider class="my-8"></v-divider>
-          <div class="d-flex align-center">
-            <router-link to="/" class="text-decoration-none">
-              <v-btn variant="outlined" color="primary" class="text-none px-8 rounded-lg border-opacity-100">
-                Cancel
+            <!-- Navigation Buttons -->
+            <v-divider class="my-8"></v-divider>
+            <div class="d-flex align-center">
+              <router-link to="/" class="text-decoration-none">
+                <v-btn
+                  variant="outlined"
+                  color="primary"
+                  class="text-none px-8 rounded-lg border-opacity-100"
+                >
+                  Cancel
+                </v-btn>
+              </router-link>
+              <v-spacer></v-spacer>
+              <v-btn
+                v-if="currentStep > 1"
+                variant="tonal"
+                class="text-none px-8 rounded-lg me-4 text-black"
+                @click="currentStep--"
+              >
+                <v-icon start icon="mdi-arrow-left"></v-icon> Back
               </v-btn>
-            </router-link>
-            <v-spacer></v-spacer>
-            <v-btn v-if="currentStep > 1" variant="tonal" class="text-none px-8 rounded-lg me-4 text-black"
-              @click="currentStep--">
-              <v-icon start icon="mdi-arrow-left"></v-icon> Back
-            </v-btn>
-            <v-btn v-if="currentStep < 5" 
-              color="#003192" 
-              class="text-none px-10 rounded-lg text-white" 
-              elevation="0"
-              :disabled="!isCurrentStepValid()"
-              @click="currentStep++">
-              Next <v-icon end icon="mdi-arrow-right"></v-icon>
-            </v-btn>
-            <v-btn v-else 
-              color="#003192" 
-              class="text-none px-10 rounded-lg text-white" 
-              elevation="0"
-              :disabled="!isCurrentStepValid() || isSubmitting"
-              :loading="isSubmitting"
-              @click="submitForm">
-              <v-icon start icon="mdi-check-circle-outline"></v-icon> Submit
-            </v-btn>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-     </v-container>
+              <v-btn
+                v-if="currentStep < 5"
+                color="#003192"
+                class="text-none px-10 rounded-lg text-white"
+                elevation="0"
+                :disabled="!isCurrentStepValid()"
+                @click="currentStep++"
+              >
+                Next <v-icon end icon="mdi-arrow-right"></v-icon>
+              </v-btn>
+              <v-btn
+                v-else
+                color="#003192"
+                class="text-none px-10 rounded-lg text-white"
+                elevation="0"
+                :disabled="!isCurrentStepValid() || isSubmitting"
+                :loading="isSubmitting"
+                @click="submitForm"
+              >
+                <v-icon start icon="mdi-check-circle-outline"></v-icon> Submit
+              </v-btn>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
-const currentStep = ref(1)
-const showSuccessMessage = ref(false)
-const showErrorMessage = ref(false)
-const errorMessage = ref('')
-const isSubmitting = ref(false)
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+const router = useRouter();
+const currentStep = ref(1);
+const showSuccessMessage = ref(false);
+const showErrorMessage = ref(false);
+const errorMessage = ref("");
+const isSubmitting = ref(false);
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
 const countries = [
-  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 'Armenia',
-  'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium',
-  'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria',
-  'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic', 'Chad',
-  'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Côte d\'Ivoire', 'Croatia', 'Cuba', 'Cyprus',
-  'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt',
-  'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France',
-  'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau',
-  'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel',
-  'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Kosovo', 'Kuwait', 'Kyrgyzstan',
-  'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Madagascar',
-  'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico',
-  'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia',
-  'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'North Korea', 'North Macedonia',
-  'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru',
-  'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis',
-  'Saint Lucia', 'Saint Vincent and the Grenadines', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia',
-  'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia',
-  'South Africa', 'South Korea', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland',
-  'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia',
-  'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States',
-  'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe'
-]
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Antigua and Barbuda",
+  "Argentina",
+  "Armenia",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia and Herzegovina",
+  "Botswana",
+  "Brazil",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Cape Verde",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Comoros",
+  "Congo",
+  "Costa Rica",
+  "Côte d'Ivoire",
+  "Croatia",
+  "Cuba",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "East Timor",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Eswatini",
+  "Ethiopia",
+  "Fiji",
+  "Finland",
+  "France",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Greece",
+  "Grenada",
+  "Guatemala",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Israel",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Kosovo",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Micronesia",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "North Korea",
+  "North Macedonia",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Palestine",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Qatar",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "Sao Tome and Principe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Korea",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "Sudan",
+  "Suriname",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Togo",
+  "Tonga",
+  "Trinidad and Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Tuvalu",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Vatican City",
+  "Venezuela",
+  "Vietnam",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+];
 
 const formData = ref({
   // Step 1
-  nationality: '',
-  firstName: '',
-  middleName: '',
-  familyName: '',
-  nationalId: '',
-  lastName: '',
+  nationality: "",
+  firstName: "",
+  middleName: "",
+  familyName: "",
+  nationalId: "",
+  lastName: "",
   passportFile: [],
   // Step 2
-  email: '',
-  phoneCode: '+962',
-  phoneNumber: '',
+  email: "",
+  phoneCode: "+962",
+  phoneNumber: "",
   // Step 3
-  jobTitle: '',
-  company: '',
-  website: '',
-  industry: '',
-  country: '',
+  jobTitle: "",
+  company: "",
+  website: "",
+  industry: "",
+  country: "",
   // Step 4
-  linkedinUrl: '',
-  bio: '',
+  linkedinUrl: "",
+  bio: "",
   // Step 5
-  arrivalDate: '',
-  arrivalTime: '',
-  departureDate: '',
-  departureTime: ''
-})
+  arrivalDate: "",
+  arrivalTime: "",
+  departureDate: "",
+  departureTime: "",
+});
 
 const steps = [
-  { title: 'Personal Info', subtitle: 'Basic details' },
-  { title: 'Contact Info', subtitle: 'Communication' },
-  { title: 'Professional', subtitle: 'Your role' },
-  { title: 'About You', subtitle: 'Your profile' },
-  { title: 'Travel', subtitle: 'Planning' }
-]
+  { title: "Personal Info", subtitle: "Basic details" },
+  { title: "Contact Info", subtitle: "Communication" },
+  { title: "Professional", subtitle: "Your role" },
+  { title: "About You", subtitle: "Your profile" },
+  { title: "Travel", subtitle: "Planning" },
+];
 
 const isCurrentStepValid = () => {
-  switch(currentStep.value) {
+  switch (currentStep.value) {
     case 1:
-      if (!formData.value.nationality) return false
-      if (formData.value.nationality === 'Jordanian') {
-        return !!(formData.value.firstName && formData.value.middleName && 
-                  formData.value.familyName && formData.value.nationalId)
-      } else if (formData.value.nationality === 'European') {
-        return !!(formData.value.firstName && formData.value.lastName && 
-                  formData.value.passportFile.length > 0)
+      if (!formData.value.nationality) return false;
+      if (formData.value.nationality === "Jordanian") {
+        return !!(
+          formData.value.firstName &&
+          formData.value.middleName &&
+          formData.value.familyName &&
+          formData.value.nationalId
+        );
+      } else if (formData.value.nationality === "European") {
+        return !!(
+          formData.value.firstName &&
+          formData.value.lastName &&
+          formData.value.passportFile.length > 0
+        );
       }
-      return false
+      return false;
     case 2:
-      return !!formData.value.email && /^\S+@\S+\.\S+$/.test(formData.value.email)
+      return (
+        !!formData.value.email && /^\S+@\S+\.\S+$/.test(formData.value.email)
+      );
     case 3:
-      return !!(formData.value.jobTitle && formData.value.company && 
-                formData.value.website && formData.value.industry && formData.value.country)
+      return !!(
+        formData.value.jobTitle &&
+        formData.value.company &&
+        formData.value.website &&
+        formData.value.industry &&
+        formData.value.country
+      );
     case 4:
-      return !!(formData.value.bio && formData.value.bio.length >= 20)
+      return true; // All fields optional
     case 5:
-      return !!(formData.value.arrivalDate && formData.value.arrivalTime && 
-                formData.value.departureDate && formData.value.departureTime)
+      return !!(
+        formData.value.arrivalDate &&
+        formData.value.arrivalTime &&
+        formData.value.departureDate &&
+        formData.value.departureTime
+      );
     default:
-      return false
+      return false;
   }
-}
+};
 
 const getPassportFile = () => {
-  if (!Array.isArray(formData.value.passportFile) || formData.value.passportFile.length === 0) {
-    return null
+  if (
+    !Array.isArray(formData.value.passportFile) ||
+    formData.value.passportFile.length === 0
+  ) {
+    return null;
   }
 
-  const raw = formData.value.passportFile[0]
-  return raw?.raw || raw?.file || raw
-}
+  const raw = formData.value.passportFile[0];
+  return raw?.raw || raw?.file || raw;
+};
 
 const buildRegistrationPayload = () => {
-  const payload = new FormData()
-  const isJordanian = formData.value.nationality === 'Jordanian'
-  const lastName = isJordanian ? formData.value.familyName : formData.value.lastName
+  const payload = new FormData();
+  const isJordanian = formData.value.nationality === "Jordanian";
+  const lastName = isJordanian
+    ? formData.value.familyName
+    : formData.value.lastName;
   const normalizedPhone = formData.value.phoneNumber
-    ? `${formData.value.phoneCode}${formData.value.phoneNumber}`.replace(/\s+/g, '')
-    : ''
+    ? `${formData.value.phoneCode}${formData.value.phoneNumber}`.replace(
+        /\s+/g,
+        "",
+      )
+    : "";
 
-  payload.append('email', formData.value.email)
-  payload.append('first_name', formData.value.firstName)
-  payload.append('last_name', lastName || '')
-  payload.append('job_title', formData.value.jobTitle)
-  payload.append('company', formData.value.company)
-  payload.append('industry', formData.value.industry)
-  payload.append('website', formData.value.website)
-  payload.append('nationality', formData.value.nationality)
-  payload.append('country', formData.value.country)
-  payload.append('arrival_date', formData.value.arrivalDate)
-  payload.append('arrival_time', formData.value.arrivalTime)
-  payload.append('departure_date', formData.value.departureDate)
-  payload.append('departure_time', formData.value.departureTime)
+  payload.append("email", formData.value.email);
+  payload.append("first_name", formData.value.firstName);
+  payload.append("last_name", lastName || "");
+  payload.append("job_title", formData.value.jobTitle);
+  payload.append("company", formData.value.company);
+  payload.append("industry", formData.value.industry);
+  payload.append("website", formData.value.website);
+  payload.append("nationality", formData.value.nationality);
+  payload.append("country", formData.value.country);
+  payload.append("arrival_date", formData.value.arrivalDate);
+  payload.append("arrival_time", formData.value.arrivalTime);
+  payload.append("departure_date", formData.value.departureDate);
+  payload.append("departure_time", formData.value.departureTime);
 
-  if (normalizedPhone) payload.append('phone', normalizedPhone)
-  if (formData.value.bio) payload.append('bio', formData.value.bio)
-  if (formData.value.linkedinUrl) payload.append('linked_in_profile', formData.value.linkedinUrl)
+  if (normalizedPhone) payload.append("phone", normalizedPhone);
+  if (formData.value.bio) payload.append("bio", formData.value.bio);
+  if (formData.value.linkedinUrl)
+    payload.append("linked_in_profile", formData.value.linkedinUrl);
 
   if (isJordanian) {
-    payload.append('middle_name', formData.value.middleName)
-    payload.append('family_name', formData.value.familyName)
-    payload.append('national_id', formData.value.nationalId)
+    payload.append("middle_name", formData.value.middleName);
+    payload.append("family_name", formData.value.familyName);
+    payload.append("national_id", formData.value.nationalId);
   } else {
-    const passport = getPassportFile()
-    if (passport) payload.append('passport_image', passport)
+    const passport = getPassportFile();
+    if (passport) payload.append("passport_image", passport);
   }
 
-  return payload
-}
+  return payload;
+};
 
 const getApiErrorMessage = (result) => {
-  if (result?.errors && typeof result.errors === 'object') {
-    const firstKey = Object.keys(result.errors)[0]
-    if (firstKey && Array.isArray(result.errors[firstKey]) && result.errors[firstKey][0]) {
-      return result.errors[firstKey][0]
+  if (result?.errors && typeof result.errors === "object") {
+    const firstKey = Object.keys(result.errors)[0];
+    if (
+      firstKey &&
+      Array.isArray(result.errors[firstKey]) &&
+      result.errors[firstKey][0]
+    ) {
+      return result.errors[firstKey][0];
     }
   }
 
-  return result?.message || 'Failed to submit registration form.'
-}
+  return result?.message || "Failed to submit registration form.";
+};
 
 const submitForm = async () => {
-  if (!isCurrentStepValid() || isSubmitting.value) return
+  if (!isCurrentStepValid() || isSubmitting.value) return;
 
-  isSubmitting.value = true
-  showErrorMessage.value = false
-  errorMessage.value = ''
+  isSubmitting.value = true;
+  showErrorMessage.value = false;
+  errorMessage.value = "";
 
   try {
     const response = await fetch(`${apiBaseUrl}/api/register`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json'
+        Accept: "application/json",
       },
-      body: buildRegistrationPayload()
-    })
+      body: buildRegistrationPayload(),
+    });
 
-    const result = await response.json().catch(() => ({}))
+    const result = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(getApiErrorMessage(result))
+      throw new Error(getApiErrorMessage(result));
     }
 
-    showSuccessMessage.value = true
+    showSuccessMessage.value = true;
     setTimeout(() => {
-      router.push('/')
-    }, 2000)
+      router.push("/");
+    }, 2000);
   } catch (error) {
-    errorMessage.value = error?.message || 'Something went wrong while submitting the form.'
-    showErrorMessage.value = true
+    errorMessage.value =
+      error?.message || "Something went wrong while submitting the form.";
+    showErrorMessage.value = true;
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
-}
+};
 </script>
 
 <style scoped>
 .registration-wrapper {
   background: linear-gradient(135deg, #001a4d 0%, #0047ab 50%, #0066cc 100%);
   min-height: 100vh;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   position: relative;
   overflow-y: auto;
   padding: 20px 0;
 }
 
 .registration-wrapper::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 40% 10%, rgba(135, 206, 250, 0.1) 0%, transparent 40%);
+    radial-gradient(
+      circle at 20% 50%,
+      rgba(255, 255, 255, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 10%,
+      rgba(135, 206, 250, 0.1) 0%,
+      transparent 40%
+    );
   pointer-events: none;
 }
 
 .registration-wrapper::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 120px;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 26, 77, 0.3) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 26, 77, 0.3) 100%
+  );
   pointer-events: none;
 }
 
 .registration-card {
   background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%) !important;
-  box-shadow: 0 30px 80px rgba(0, 26, 77, 0.35),
+  box-shadow:
+    0 30px 80px rgba(0, 26, 77, 0.35),
     0 1px 3px rgba(0, 26, 77, 0.2) !important;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 20px !important;
@@ -653,7 +1148,7 @@ const submitForm = async () => {
 }
 
 .registration-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -663,7 +1158,8 @@ const submitForm = async () => {
 }
 
 .registration-card:hover {
-  box-shadow: 0 40px 100px rgba(0, 26, 77, 0.4),
+  box-shadow:
+    0 40px 100px rgba(0, 26, 77, 0.4),
     0 2px 8px rgba(0, 26, 77, 0.25) !important;
   transform: translateY(-4px);
 }

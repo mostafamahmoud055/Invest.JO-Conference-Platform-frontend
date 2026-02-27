@@ -89,7 +89,7 @@
             <router-link to="/register" class="text-decoration-none">
               <v-btn color="indigo-darken-4" class="text-none px-8 rounded-lg" variant="flat"
                 append-icon="mdi-arrow-right">
-                Start Registration
+                Start Application
               </v-btn>
             </router-link>
           </v-card-actions>
