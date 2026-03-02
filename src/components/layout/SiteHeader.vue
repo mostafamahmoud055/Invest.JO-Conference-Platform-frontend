@@ -86,7 +86,7 @@ defineProps({
 const isScrolled = ref(false);
 const logoMissing = ref(false);
 const logoSourceIndex = ref(0);
-const logoSources = ["/images/logo.png", "/images/image.png"];
+const logoSources = ["/images/logo.png", "/images/logo.png"];
 const logoSrc = computed(() => logoSources[logoSourceIndex.value]);
 
 const navLinks = [
@@ -160,7 +160,7 @@ onBeforeUnmount(() => {
 }
 
 .brand-logo-image {
-  width: 150px;
+  width: 120px;
   max-width: 100%;
   height: auto;
   display: block;

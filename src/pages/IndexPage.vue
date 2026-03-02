@@ -12,13 +12,8 @@
         <p class="hero-subtitle">Dead Sea, Jordan | April 20-21, 2026</p>
         <div class="hero-actions">
           <RouterLink :to="{ name: 'StartRegister' }" class="text-decoration-none">
-            <v-btn color="white" variant="flat" class="text-none hero-primary-btn" rounded="pill">
-              Register Now
-            </v-btn>
-          </RouterLink>
-          <RouterLink :to="{ name: 'About' }" class="text-decoration-none">
-            <v-btn variant="outlined" color="white" class="text-none px-7" rounded="pill">
-              Learn More
+            <v-btn color="primary" variant="flat" class="text-none hero-primary-btn">
+              Register Invitation
             </v-btn>
           </RouterLink>
         </div>
@@ -28,8 +23,14 @@
     </section>
 
     <section id="countdown" class="countdown-section">
-      <v-container>
-        <h2 class="section-title text-center text-white">The Countdown Has Begun</h2>
+      <div class="countdown-ticker" aria-hidden="true">
+        <div class="countdown-ticker-track">
+          <span v-for="(item, index) in marqueeItems" :key="`top-${index}`">{{ item }}</span>
+        </div>
+      </div>
+
+      <v-container class="countdown-content">
+        <h2 class="countdown-title text-center">The Countdown has begun!</h2>
         <div class="counter-grid">
           <article v-for="item in countdownItems" :key="item.label" class="counter-card">
             <div class="counter-value">{{ item.value }}</div>
@@ -37,49 +38,74 @@
           </article>
         </div>
       </v-container>
+
+      <div class="countdown-ticker countdown-ticker-bottom" aria-hidden="true">
+        <div class="countdown-ticker-track">
+          <span v-for="(item, index) in marqueeItems" :key="`bottom-${index}`">{{ item }}</span>
+        </div>
+      </div>
     </section>
 
     <section class="conference-section">
       <v-container>
-        <v-row align="center" class="conference-card" dense>
-          <v-col cols="12" md="7" class="pa-6 pa-md-8">
-            <p class="conference-kicker">Jordan-EU Investment Conference 2026</p>
-            <h2 class="conference-title">Shaping investment partnerships for sustainable growth.</h2>
+        <article class="conference-showcase">
+          <div class="conference-top">
+            <h2 class="conference-title">
+              Join Global Investors at the
+              <span>Jordan-EU Investment Conference 2026</span>
+            </h2>
             <p class="conference-description">
-              JEIC 2026 brings public and private sector leaders together to
-              accelerate investment across strategic sectors and unlock regional
-              opportunities.
+              The Jordan-EU Investment Conference 2026 brings together policymakers,
+              European investors, financial institutions, and private sector leaders to
+              explore strategic, bankable opportunities across key sectors driving Jordan's growth.
             </p>
-            <div class="stats-grid">
-              <article v-for="stat in highlightStats" :key="stat.label" class="stat-card">
-                <h3>{{ stat.value }}</h3>
-                <p>{{ stat.label }}</p>
-              </article>
-            </div>
-          </v-col>
+          </div>
 
-          <v-col cols="12" md="5" class="conference-image-wrap">
-            <img
-              src="https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1e2?q=80&w=1000&auto=format&fit=crop"
-              alt="Jordan-EU conference visual"
-              class="conference-image"
-            />
-          </v-col>
-        </v-row>
+          <img
+            src="/images/image.png"
+            alt="Jordan-EU Investment Conference leaders"
+            class="conference-image"
+          />
+
+          <div class="stats-grid">
+            <article
+              v-for="(stat, index) in highlightStats"
+              :key="stat.label"
+              class="stat-card"
+              :class="{ 'stat-card--primary': index === 0 }"
+            >
+              <h3>{{ stat.value }}</h3>
+              <p>{{ stat.label }}</p>
+            </article>
+          </div>
+        </article>
       </v-container>
     </section>
 
     <section id="sectors" class="sectors-section">
       <v-container>
-        <div class="section-head text-center">
-          <h2 class="section-title">Key Investment Sectors</h2>
-          <p>Priority sectors designed to attract long-term and high-value investments.</p>
+        <div class="section-head sectors-head">
+          <h2 class="section-title sectors-title">
+            Key Investment Sectors
+            <span>Driving Jordan's Economic Future</span>
+          </h2>
+          <p class="sectors-intro">
+            From digital innovation to strategic infrastructure, Jordan's priority sectors offer
+            structured, bankable opportunities designed to strengthen economic resilience, attract
+            long-term capital, and deepen regional and European partnership
+          </p>
         </div>
 
         <v-row dense>
-          <v-col cols="12" sm="6" md="3" v-for="sector in sectors" :key="sector.title">
+          <v-col cols="12" sm="6" md="4" v-for="sector in sectors" :key="sector.title">
             <article class="sector-card">
-              <v-icon :icon="sector.icon" color="primary" size="24" />
+              <img
+                v-if="sector.icon.startsWith('/icon/')"
+                :src="sector.icon"
+                :alt="`${sector.title} icon`"
+                class="sector-icon-image"
+              />
+              <v-icon v-else :icon="sector.icon" color="primary" size="24" />
               <h3>{{ sector.title }}</h3>
               <p>{{ sector.description }}</p>
             </article>
@@ -90,9 +116,17 @@
 
     <section id="opportunities" class="opportunities-section">
       <v-container>
-        <div class="section-head text-center">
-          <h2 class="section-title">Signature Investment Opportunities</h2>
-          <p>Projects aligned with Jordan's growth strategy and regional demand.</p>
+        <div class="section-head opportunities-head">
+          <div class="opportunities-copy">
+            <h2 class="section-title">Signature Investment Opportunities</h2>
+            <p class="opportunities-subtitle">
+              Projects aligned with Jordan's growth strategy and regional demand.
+            </p>
+          </div>
+          <p class="opportunities-intro">
+            Access bankable projects across key sectors while discovering the cultural and natural
+            assets that position Jordan as a regional hub for opportunity and growth
+          </p>
         </div>
 
         <v-row dense>
@@ -105,19 +139,22 @@
               </div>
             </article>
           </v-col>
+          
         </v-row>
       </v-container>
     </section>
 
     <section class="join-section">
-      <v-container class="text-center">
-        <h2>Ready to Join Us?</h2>
-        <p>Start your application and reserve your spot at JEIC 2026.</p>
-        <RouterLink :to="{ name: 'StartRegister' }" class="text-decoration-none">
-          <v-btn color="white" variant="flat" class="text-none join-btn" rounded="pill">
-            Start Application
-          </v-btn>
-        </RouterLink>
+      <v-container class="text-center join-container">
+        <div class="join-panel">
+          <h2>Ready to Join Us?</h2>
+          <p>Secure your spot at Jordan's premier investment event. Limited seats available.</p>
+          <RouterLink :to="{ name: 'StartRegister' }" class="text-decoration-none">
+            <v-btn color="primary" variant="flat" class="text-none join-btn">
+              Request Invitation
+            </v-btn>
+          </RouterLink>
+        </div>
       </v-container>
     </section>
   </div>
@@ -129,6 +166,16 @@ import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 const eventDate = new Date("2026-04-20T09:00:00+03:00");
 const now = ref(Date.now());
 let timerId = null;
+const marqueeItems = [
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+  "Jordan-EU Investment Conference 2026",
+];
 
 onMounted(() => {
   timerId = window.setInterval(() => {
@@ -158,52 +205,38 @@ const countdownItems = computed(() => {
 });
 
 const highlightStats = [
-  { value: "500+", label: "Expected Participants" },
-  { value: "25+", label: "Countries Represented" },
-  { value: "$30B+", label: "Projects Pipeline" },
+  { value: "500+", label: "Global Investors" },
+  { value: "25+", label: "Investment Opportunities" },
+  { value: "$20M+", label: "Investment Opportunities" },
 ];
 
 const sectors = [
   {
-    title: "Tourism",
-    description: "High-growth opportunities in hospitality and destination development.",
-    icon: "mdi-beach",
+    title: "Transport & Logistics",
+    icon: "/icon/1.png",
   },
   {
-    title: "Tech & Digital",
-    description: "Innovation hubs, SaaS growth, and digital infrastructure projects.",
-    icon: "mdi-laptop",
+    title: "High Value Industries",
+    icon: "/icon/2.png",
   },
   {
-    title: "Green Energy",
-    description: "Utility-scale renewable projects and clean transition programs.",
-    icon: "mdi-leaf",
+    title: "Water",
+    icon: "/icon/3.png",
   },
   {
-    title: "Logistics",
-    description: "Regional trade connectivity and supply chain optimization.",
-    icon: "mdi-truck-fast-outline",
+    title: "Digital & Technology",
+    icon: "/icon/4.png",
   },
   {
-    title: "Manufacturing",
-    description: "Industrial expansion backed by strategic geographic access.",
-    icon: "mdi-factory",
+    title: "Regional Gateways",
+    icon: "/icon/5.png",
   },
   {
-    title: "Healthcare",
-    description: "Medical services, biotech collaboration, and health innovation.",
-    icon: "mdi-hospital-box-outline",
+    title: "Energy",
+    icon: "/icon/6.png",
   },
-  {
-    title: "AgriBusiness",
-    description: "Food security and value-chain focused agricultural investments.",
-    icon: "mdi-sprout-outline",
-  },
-  {
-    title: "Financial Services",
-    description: "Fintech development and cross-border financing opportunities.",
-    icon: "mdi-bank-outline",
-  },
+  
+  
 ];
 
 const opportunities = [
@@ -212,19 +245,23 @@ const opportunities = [
     description:
       "A mixed-use growth zone focused on advanced manufacturing and startup incubation.",
     image:
-      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format&fit=crop",
+      "/images/investment.png",
   },
   {
     title: "Dead Sea Premium Tourism District",
     description:
       "Integrated hospitality and wellness projects designed for international tourism demand.",
     image:
-      "https://images.unsplash.com/photo-1630060383258-44d7f5b4576d?q=80&w=1200&auto=format&fit=crop",
+      "/images/experience.png",
   },
 ];
 </script>
 
 <style scoped>
+.home-page {
+  background: linear-gradient(to left, #ffffff 0%, #ffffff 100%);
+}
+
 .hero-section {
   position: relative;
   min-height: 86vh;
@@ -285,8 +322,14 @@ const opportunities = [
 }
 
 .hero-primary-btn {
-  color: #0e367f !important;
+  background: #003399 !important;
+  color: #ffffff !important;
   font-weight: 700;
+  font-size: 1.05rem;
+  min-height: 56px;
+  min-width: 250px;
+  padding-inline: 34px !important;
+  border-radius: 10px !important;
 }
 
 .hero-wave {
@@ -301,8 +344,46 @@ const opportunities = [
 }
 
 .countdown-section {
-  background: linear-gradient(150deg, #0f3d8d 0%, #0b3378 100%);
-  padding: 72px 0 58px;
+  background: linear-gradient(180deg, #0a4ea0 0%, #0a4a99 100%);
+  overflow: hidden;
+}
+
+.countdown-content {
+  padding: 56px 0 50px;
+}
+
+.countdown-title {
+  margin: 0;
+  color: #f4f8ff;
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 700;
+}
+
+.countdown-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  background: #000000;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.countdown-ticker-track {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  padding: 12px 0;
+  animation: countdown-marquee 26s linear infinite;
+}
+
+.countdown-ticker-track span {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f3f7ff;
+}
+
+.countdown-ticker-bottom .countdown-ticker-track {
+  animation-direction: reverse;
 }
 
 .section-title {
@@ -312,112 +393,168 @@ const opportunities = [
 }
 
 .counter-grid {
-  margin-top: 28px;
+  max-width: 1020px;
+  margin: 32px auto 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(80px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 18px;
 }
 
 .counter-card {
   text-align: center;
-  border-radius: 14px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 16px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 18px 16px 14px;
 }
 
 .counter-value {
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-size: clamp(2rem, 3.2vw, 3rem);
   color: #fff;
   font-weight: 700;
 }
 
 .counter-label {
-  margin-top: 4px;
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
+  margin-top: 8px;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
   color: #d5e3ff;
 }
 
+@keyframes countdown-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 .conference-section {
-  padding: 50px 0 28px;
+  padding: 54px 0 30px;
+  background: transparent;
 }
 
-.conference-card {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 22px 50px rgba(14, 39, 88, 0.1);
-  overflow: hidden;
+.conference-showcase {
+  background: transparent;
+  padding: 0;
 }
 
-.conference-kicker {
-  margin: 0;
-  color: #4c6fa8;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 0.72rem;
-  font-weight: 700;
+.conference-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 18px;
 }
 
 .conference-title {
-  margin: 16px 0 14px;
-  color: #153a84;
+  margin: 0;
+  color: #2e3f59;
   line-height: 1.2;
+  font-size: clamp(1.3rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  max-width: 560px;
+}
+
+.conference-title span {
+  color: #6a7c95;
+  display: block;
 }
 
 .conference-description {
-  color: #4f6285;
-  line-height: 1.8;
-  font-size: 0.95rem;
+  margin: 0 auto;
+  color: #6e7f96;
+  line-height: 1.75;
+  font-size: 1.04rem;
+  font-weight: 500;
+  max-width: 520px;
+  text-align: center;
 }
 
 .stats-grid {
-  margin-top: 24px;
+  margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(3, minmax(110px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 14px;
 }
 
 .stat-card {
-  border: 1px solid #d8e4f7;
-  border-radius: 14px;
-  padding: 14px 12px;
-  background: #f8fbff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  background: #f5f5f5;
+  border: 1px solid #dbe2ea;
 }
 
 .stat-card h3 {
   margin: 0;
-  color: #103474;
-  font-size: 1.25rem;
+  color: #1f2d43;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 .stat-card p {
-  margin: 4px 0 0;
-  color: #59719f;
-  font-size: 0.8rem;
+  margin: 6px 0 0;
+  color: #6a7b91;
+  font-size: 0.82rem;
 }
 
-.conference-image-wrap {
-  min-height: 280px;
+.stat-card--primary {
+  background: #101828;
+}
+
+.stat-card--primary h3,
+.stat-card--primary p {
+  color: #ffffff;
 }
 
 .conference-image {
   display: block;
   width: 100%;
-  height: 100%;
-  min-height: 280px;
+  height: clamp(240px, 42vw, 420px);
   object-fit: cover;
+  border-radius: 14px;
 }
 
 .sectors-section {
   padding: 58px 0 20px;
+  background: linear-gradient(to left, #f5f5f5 0%, #f5f5f5 100%);
 }
 
 .section-head p {
   margin: 10px 0 24px;
   color: #5a7098;
   font-size: 0.95rem;
+}
+
+.sectors-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.sectors-title {
+  text-align: left;
+  line-height: 1.1;
+  font-size: clamp(1.9rem, 3.1vw, 3.25rem);
+  color: #0e1c35;
+}
+
+.sectors-title span {
+  display: block;
+  color: #8a95a6;
+}
+
+.sectors-intro {
+  max-width: 620px;
+  margin: 4px 0 0;
+  justify-self: end;
+  text-align: center;
+  line-height: 1.75;
+  color: #6e7a8a;
+  font-size: 1.02rem;
 }
 
 .sector-card {
@@ -427,6 +564,13 @@ const opportunities = [
   border-radius: 14px;
   padding: 18px;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sector-icon-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  display: block;
 }
 
 .sector-card:hover {
@@ -449,6 +593,34 @@ const opportunities = [
 
 .opportunities-section {
   padding: 48px 0 12px;
+}
+
+.opportunities-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+
+.opportunities-copy {
+  text-align: left;
+}
+
+.opportunities-subtitle {
+  margin: 10px 0 0;
+  color: #5a7098;
+  font-size: 0.95rem;
+}
+
+.opportunities-intro {
+  margin: 0;
+  justify-self: end;
+  max-width: 620px;
+  text-align: right;
+  line-height: 1.75;
+  color: #6e7a8a;
+  font-size: 1.02rem;
 }
 
 .opportunity-card {
@@ -483,25 +655,43 @@ const opportunities = [
 }
 
 .join-section {
-  margin: 52px 0 0;
-  padding: 54px 0 70px;
-  background: radial-gradient(circle at 30% 20%, #2d63c0 0%, #16499f 65%, #0d356f 100%);
-  color: #fff;
+  margin: 40px 0 0;
+  padding: 20px 0 56px;
+  background: transparent;
+}
+
+.join-container {
+  max-width: 1260px;
+}
+
+.join-panel {
+  background: #f3f4f6;
+  border-radius: 14px;
+  padding: 52px 20px 50px;
 }
 
 .join-section h2 {
   margin: 0;
+  color: #1a2438;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 800;
 }
 
 .join-section p {
-  margin: 12px auto 22px;
-  max-width: 540px;
-  color: #cfddfb;
+  margin: 10px auto 18px;
+  max-width: 660px;
+  color: #6f7c8d;
+  font-size: 0.98rem;
 }
 
 .join-btn {
-  color: #0f397e !important;
+  background: #0b49b4 !important;
+  color: #ffffff !important;
   font-weight: 700;
+  border-radius: 12px !important;
+  min-height: 44px;
+  min-width: 180px;
+  padding-inline: 22px !important;
 }
 
 @media (max-width: 960px) {
@@ -515,11 +705,71 @@ const opportunities = [
   }
 
   .counter-grid {
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
+    max-width: 520px;
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+
+  .countdown-content {
+    padding: 44px 0 42px;
+  }
+
+  .countdown-ticker-track span {
+    font-size: 0.95rem;
+  }
+
+  .conference-showcase {
+    padding: 20px;
+  }
+
+  .conference-top {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sectors-head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .sectors-title {
+    text-align: center;
+  }
+
+  .sectors-intro {
+    justify-self: center;
+    margin-top: 0;
+  }
+
+  .opportunities-head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .opportunities-copy,
+  .opportunities-intro {
+    text-align: center;
+  }
+
+  .opportunities-intro {
+    justify-self: center;
+  }
+
+  .join-section {
+    padding: 14px 0 44px;
+  }
+
+  .join-panel {
+    padding: 38px 16px 34px;
+  }
+
+  .join-btn {
+    min-width: 168px;
   }
 
   .stats-grid {
-    grid-template-columns: repeat(1, minmax(120px, 1fr));
+    grid-template-columns: repeat(1, minmax(140px, 1fr));
   }
 }
 </style>

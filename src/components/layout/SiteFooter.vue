@@ -1,93 +1,123 @@
 <template>
   <footer class="site-footer">
     <v-container>
-      <v-row class="py-10" dense>
-        <v-col cols="12" md="4">
-          <h3 class="footer-brand">Jordan-EU Investment Conference</h3>
-          <p class="footer-text">
-            Hosted by the Ministry of Investment, Jordan. A focused platform for
-            investors, policymakers, and private sector leaders.
+      <v-row class="footer-main" dense>
+        <v-col cols="12" sm="6" md="3">
+          <h3 class="footer-brand">Jordan-EU Investment Conference 2026</h3>
+          <p class="footer-text footer-text--narrow">
+            Connecting European investors with Jordan's most promising investment opportunities.
           </p>
         </v-col>
 
-        <v-col cols="6" md="2">
-          <h4 class="footer-title">Pages</h4>
+        <v-col cols="12" sm="6" md="3">
+          <h4 class="footer-title">Quick Links</h4>
           <ul class="footer-list">
-            <li v-for="link in pageLinks" :key="link.label">
-              <RouterLink :to="link.to">{{ link.label }}</RouterLink>
+            <li v-for="link in quickLinks" :key="link.label">
+              <a :href="link.href">{{ link.label }}</a>
             </li>
           </ul>
         </v-col>
 
-        <v-col cols="6" md="3">
-          <h4 class="footer-title">Contact</h4>
+        <v-col cols="12" sm="6" md="3">
+          <h4 class="footer-title">Participate</h4>
           <ul class="footer-list">
-            <li>Email: info@jeic.jo</li>
-            <li>Phone: +962 6 500 8080</li>
-            <li>Dead Sea, Jordan</li>
+            <li v-for="link in participateLinks" :key="link.label">
+              <a :href="link.href">{{ link.label }}</a>
+            </li>
           </ul>
         </v-col>
 
-        <v-col cols="12" md="3">
-          <h4 class="footer-title">Conference Dates</h4>
-          <p class="footer-text">April 20-21, 2026</p>
-          <RouterLink :to="{ name: 'StartRegister' }" class="text-decoration-none">
-            <v-btn
-              variant="flat"
-              color="white"
-              class="text-none footer-cta"
-              rounded="pill"
-              size="small"
-            >
-              Apply Now
-            </v-btn>
-          </RouterLink>
+        <v-col cols="12" sm="6" md="3">
+          <h4 class="footer-title">Contact</h4>
+          <ul class="footer-list footer-contact">
+            <li>
+              <v-icon icon="mdi-email-outline" size="18" />
+              <a href="mailto:info@jordan-eu-conference.jo">info@jordan-eu-conference.jo</a>
+            </li>
+            <li>
+              <v-icon icon="mdi-phone-outline" size="18" />
+              <a href="tel:+96261234567">+962 6 123 4567</a>
+            </li>
+            <li>
+              <v-icon icon="mdi-map-marker-outline" size="18" />
+              <span>Amman, Jordan</span>
+            </li>
+          </ul>
+
+          <div class="social-links" aria-label="Social media links">
+            <a href="#" aria-label="LinkedIn">
+              <v-icon icon="mdi-linkedin" size="20" />
+            </a>
+            <a href="#" aria-label="Twitter">
+              <v-icon icon="mdi-twitter" size="20" />
+            </a>
+            <a href="#" aria-label="Facebook">
+              <v-icon icon="mdi-facebook" size="20" />
+            </a>
+          </div>
         </v-col>
       </v-row>
 
       <v-divider class="footer-divider" />
 
       <div class="footer-bottom">
-        <span>© 2026 Jordan-EU Investment Conference. All rights reserved.</span>
-        <div class="bottom-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms & Conditions</a>
-        </div>
+        <span>&copy; 2026 Jordan-EU Investment Conference. All rights reserved.</span>
       </div>
     </v-container>
   </footer>
 </template>
 
 <script setup>
-const pageLinks = [
-  { label: "Home", to: { name: "Home" } },
-  { label: "About", to: { name: "About" } },
-  { label: "Register", to: { name: "StartRegister" } },
+const quickLinks = [
+  { label: "About Conference", href: "#" },
+  { label: "Agenda", href: "#" },
+  { label: "Speakers", href: "#" },
+  { label: "Investment Opportunities", href: "#" },
+];
+
+const participateLinks = [
+  { label: "Register", href: "#" },
+  { label: "Book a Meeting", href: "#" },
+  { label: "Partners", href: "#" },
+  { label: "Contact Us", href: "#" },
 ];
 </script>
 
 <style scoped>
 .site-footer {
-  background: linear-gradient(160deg, #0a2e75 0%, #072657 100%);
-  color: #dfe9ff;
+  background: #0a468f;
+  color: #d8e4f8;
+}
+
+.footer-main {
+  padding: 46px 0 34px;
 }
 
 .footer-brand {
-  color: #fff;
-  font-size: 1.05rem;
-  margin-bottom: 10px;
+  color: #f6f9ff;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin: 0 0 12px;
 }
 
 .footer-title {
-  color: #fff;
-  font-size: 0.95rem;
+  color: #f6f9ff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 0;
   margin-bottom: 12px;
 }
 
 .footer-text {
-  color: #b7c8ef;
-  font-size: 0.88rem;
+  color: #c5d5f1;
+  font-size: 1.1rem;
   line-height: 1.7;
+  margin: 0;
+}
+
+.footer-text--narrow {
+  max-width: 270px;
 }
 
 .footer-list {
@@ -95,57 +125,75 @@ const pageLinks = [
   padding: 0;
   margin: 0;
   display: grid;
-  gap: 8px;
-  font-size: 0.88rem;
-  color: #b7c8ef;
+  gap: 10px;
+  font-size: 1.08rem;
+  color: #c5d5f1;
 }
 
 .footer-list a {
-  color: #b7c8ef;
+  color: #c5d5f1;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .footer-list a:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
-.footer-cta {
-  color: #0a2f71 !important;
-  font-weight: 700;
-}
-
-.footer-divider {
-  border-color: rgba(255, 255, 255, 0.18);
-}
-
-.footer-bottom {
-  min-height: 56px;
+.footer-contact li {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
+  color: #c5d5f1;
+}
+
+.social-links {
+  margin-top: 14px;
+  display: flex;
   gap: 12px;
-  color: #a9bee8;
-  font-size: 0.78rem;
 }
 
-.bottom-links {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.bottom-links a {
-  color: #a9bee8;
+.social-links a {
+  color: #ffffff;
   text-decoration: none;
 }
 
+.footer-divider {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.footer-bottom {
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c0d2f0;
+  font-size: 1rem;
+  text-align: center;
+}
+
 @media (max-width: 960px) {
+  .footer-main {
+    padding: 34px 0 24px;
+    row-gap: 18px;
+  }
+
+  .footer-brand {
+    font-size: 1.55rem;
+  }
+
+  .footer-title {
+    font-size: 1.18rem;
+  }
+
+  .footer-text,
+  .footer-list {
+    font-size: 0.98rem;
+  }
+
   .footer-bottom {
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    padding: 14px 0;
+    min-height: 58px;
+    font-size: 0.9rem;
   }
 }
 </style>
