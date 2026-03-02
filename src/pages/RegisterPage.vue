@@ -1,28 +1,7 @@
 <template>
   <v-container fluid class="registration-wrapper pa-0 fill-height align-start">
-    <!-- Top App Bar -->
-    <v-container fluid class="pa-6">
-      <v-row align="center" no-gutters>
-        <v-col>
-          <router-link to="/" class="text-decoration-none">
-            <v-btn
-              variant="text"
-              prepend-icon="mdi-arrow-left"
-              class="text-none text-white"
-              color="white"
-            >
-              Back to Home
-            </v-btn>
-          </router-link>
-        </v-col>
-        <v-spacer></v-spacer>
-
-        <!-- Removed MENU -->
-      </v-row>
-    </v-container>
-
     <!-- Header Text -->
-    <v-container>
+    <v-container class="py-10">
       <div class="text-start text-white ml-5 max-content-container">
         <h1 class="text-h3 font-weight-bold mb-4">
           Welcome to JEIC 2026

@@ -1,26 +1,6 @@
 <template>
-  <v-app>
-    <v-main class="registration-bg d-flex flex-column">
-      <!-- Top App Bar -->
-      <v-container fluid class="pa-6">
-        <v-row align="center" no-gutters>
-          <v-col>
-            <v-btn variant="text" prepend-icon="mdi-arrow-left" class="text-none text-white" color="white">
-              Back to Home
-            </v-btn>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col class="text-right">
-            <v-btn variant="text" class="text-white font-weight-bold" size="large">
-              MENU
-              <v-icon end icon="mdi-menu" color="amber-darken-2"></v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-
-      <!-- Main Content -->
-      <v-container class="flex-grow-1 d-flex flex-column justify-start px-4 py-6">
+  <v-main class="registration-bg d-flex flex-column">
+      <v-container class="flex-grow-1 d-flex flex-column justify-start px-4 py-10">
         <!-- Header Text -->
         <div class="text-white w-100 mb-6">
           <h1 class="text-h3 font-weight-bold mb-4">
@@ -95,8 +75,7 @@
           </v-card-actions>
         </v-card>
       </v-container>
-    </v-main>
-  </v-app>
+  </v-main>
 </template>
 
 <script setup>
