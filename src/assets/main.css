@@ -19,5 +19,5 @@ body,
 body {
   background: var(--site-bg);
   color: var(--site-text);
-  font-family: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }

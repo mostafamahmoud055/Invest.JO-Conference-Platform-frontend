@@ -83,12 +83,14 @@
 </script>
 
 <style scoped>
+
 .registration-bg {
   background: linear-gradient(135deg, #001a4d 0%, #0047ab 50%, #003d82 100%);
   min-height: 100vh;
   overflow-x: hidden;
   position: relative;
   padding: 0;
+  font-family: "Inter", sans-serif !important;
 }
 
 .registration-bg::before {

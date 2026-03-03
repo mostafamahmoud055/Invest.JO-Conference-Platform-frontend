@@ -5,7 +5,14 @@ import AboutPage from "../pages/AboutPage.vue";
 import StartRegisterPage from "../pages/StartRegisterPage.vue";
 import RegisterPage from "../pages/RegisterPage.vue";
 import GenericInfoPage from "../pages/GenericInfoPage.vue";
-
+import SpeakersPage from "../pages/SpeakersPage.vue";
+import InvestmentOpportunitiesPage from "../pages/InvestmentOpportunitiesPage.vue";
+import TourismPage from "../pages/TourismPage.vue";
+import PartnersPage from "../pages/PartnersPage.vue";
+import InvestmentOpportunitiesPageDetails from "../pages/InvestmentOpportunitiesPageDetails.vue";
+import NewUpdatesPage from "../pages/NewUpdatesPage.vue";
+import ContactPage from "../pages/ContactPage.vue";
+import SuccessPage from "../pages/SuccessPage.vue";
 const routes = [
   {
     path: "/",
@@ -27,40 +34,54 @@ const routes = [
         component: GenericInfoPage,
         meta: {
           title: "Agenda",
-          description: "Conference tracks, sessions, and detailed timetable will be published here.",
+          description:
+            "Conference tracks, sessions, and detailed timetable will be published here.",
         },
       },
       {
         path: "speakers",
         name: "Speakers",
-        component: GenericInfoPage,
+        component: SpeakersPage,
         meta: {
           title: "Speakers",
-          description: "Meet keynote speakers, policy leaders, and private sector experts.",
+          description:
+            "Meet keynote speakers, policy leaders, and private sector experts.",
         },
       },
       {
         path: "investment-opportunities",
         name: "InvestmentOpportunities",
-        component: GenericInfoPage,
+        component: InvestmentOpportunitiesPage,
         meta: {
           title: "Investment Opportunities",
-          description: "Discover project pipelines and strategic investment opportunities in Jordan.",
+          description:
+            "Discover project pipelines and strategic investment opportunities in Jordan.",
+        },
+      },
+      {
+        path: "investment-opportunities-details",
+        name: "InvestmentOpportunitiesDetails",
+        component: InvestmentOpportunitiesPageDetails,
+        meta: {
+          title: "Investment Opportunities Details",
+          description:
+            "Discover project pipelines and strategic investment opportunities in Jordan.",
         },
       },
       {
         path: "tourism",
         name: "Tourism",
-        component: GenericInfoPage,
+        component: TourismPage,
         meta: {
           title: "Tourism",
-          description: "Explore tourism investment opportunities and destination development projects.",
+          description:
+            "Explore tourism investment opportunities and destination development projects.",
         },
       },
       {
         path: "partners",
         name: "Partners",
-        component: GenericInfoPage,
+        component: PartnersPage,
         meta: {
           title: "Partners",
           description: "Institutions and organizations supporting JEIC 2026.",
@@ -69,19 +90,21 @@ const routes = [
       {
         path: "news-updates",
         name: "NewsUpdates",
-        component: GenericInfoPage,
+        component: NewUpdatesPage,
         meta: {
           title: "News Updates",
-          description: "Latest announcements, releases, and conference updates.",
+          description:
+            "Latest announcements, releases, and conference updates.",
         },
       },
       {
         path: "contact",
         name: "Contact",
-        component: GenericInfoPage,
+        component: ContactPage,
         meta: {
           title: "Contact",
-          description: "Reach the organizing team for participation and partnership inquiries.",
+          description:
+            "Reach the organizing team for participation and partnership inquiries.",
         },
       },
       {
@@ -93,6 +116,11 @@ const routes = [
         path: "register",
         name: "Register",
         component: RegisterPage,
+      },
+      {
+        path: "/success",
+        name: "Success",
+        component: SuccessPage,
       },
     ],
   },

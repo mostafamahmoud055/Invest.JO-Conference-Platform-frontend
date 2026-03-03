@@ -1,10 +1,39 @@
 <template>
   <v-container fluid class="registration-wrapper pa-0 fill-height align-start">
+    <!-- Top App Bar -->
+    <v-container fluid class="pa-6">
+      <v-row align="center" no-gutters>
+        <v-col>
+          <router-link to="/" class="text-decoration-none">
+            <v-btn
+              variant="text"
+              prepend-icon="mdi-arrow-left"
+              class="text-none text-white"
+              color="white"
+            >
+              Back to Home
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col class="text-right">
+          <v-btn
+            variant="text"
+            class="text-white font-weight-bold"
+            size="large"
+          >
+            MENU
+            <v-icon end icon="mdi-menu" color="amber-darken-2"></v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+
     <!-- Header Text -->
-    <v-container class="py-10">
+    <v-container>
       <div class="text-start text-white ml-5 max-content-container">
         <h1 class="text-h3 font-weight-bold mb-4">
-          Welcome to JEIC 2026
+          Welcome to JEIC 2026 Registration
         </h1>
         <p class="text-subtitle-1 mb-3 opacity-90">
           Thank you for your interest in the Jordan-EU Investment Conference.
@@ -18,12 +47,6 @@
         <template v-slot:default>
           <v-icon class="me-2">mdi-check-circle</v-icon>
           You have successfully registered!
-        </template>
-      </v-snackbar>
-      <v-snackbar v-model="showErrorMessage" color="error" location="top">
-        <template v-slot:default>
-          <v-icon class="me-2">mdi-alert-circle</v-icon>
-          {{ errorMessage }}
         </template>
       </v-snackbar>
 
@@ -83,109 +106,139 @@
                         v-model="formData.nationality"
                         label="Select nationality"
                         variant="outlined"
-                        :items="[
-                          'Jordanian',
-                          'European',
-                          'United Arab Emirates',
-                          'Saudi Arabia',
-                          'Qatar',
-                          'Kuwait',
-                          'Bahrain',
-                          'Oman',
-                          'Palestine',
-                          'United Kingdom',
-                          'Germany',
-                          'France',
-                          'Italy',
-                          'Spain',
-                          'Netherlands',
-                          'Sweden',
-                          'Switzerland',
-                          'United States',
-                          'Canada',
-                          'Australia',
-                          'Other',
-                        ]"
+                        :items="nationalities"
                       ></v-select>
                     </v-col>
                   </v-row>
 
                   <!-- Jordanian Fields -->
-                  <v-row v-if="formData.nationality === 'Jordanian'">
-                    <v-col cols="12" md="6">
-                      <label class="input-label">First Name *</label>
-                      <v-text-field
-                        v-model="formData.firstName"
-                        placeholder="Enter your first name"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[(v) => !!v || 'First Name is required']"
-                      ></v-text-field>
+                  <v-row v-if="formData.nationality === 'Jordan'">
+                    <v-col cols="12">
+                      <div class="full-name-box">
+                        <div class="full-name-title">Full Name</div>
+
+                        <v-row>
+                          <v-col cols="12" md="6">
+                            <label class="input-label">First Name *</label>
+                            <v-text-field
+                              v-model="formData.firstName"
+                              placeholder="Enter your first name"
+                              variant="outlined"
+                              density="comfortable"
+                              :rules="[(v) => !!v || 'First Name is required']"
+                            />
+                          </v-col>
+
+                          <v-col cols="12" md="6">
+                            <label class="input-label">Father's Name *</label>
+                            <v-text-field
+                              v-model="formData.father_name"
+                              placeholder="Enter your father's name"
+                              variant="outlined"
+                              density="comfortable"
+                              :rules="[
+                                (v) => !!v || 'Father\'s Name is required',
+                              ]"
+                            />
+                          </v-col>
+
+                          <v-col cols="12" md="6">
+                            <label class="input-label"
+                              >Grandfather's Name *</label
+                            >
+                            <v-text-field
+                              v-model="formData.grandfather_name"
+                              placeholder="Enter grandfather's name"
+                              variant="outlined"
+                              density="comfortable"
+                              :rules="[
+                                (v) => !!v || 'Grandfather\'s Name is required',
+                              ]"
+                            />
+                          </v-col>
+
+                          <v-col cols="12" md="6">
+                            <label class="input-label">Family Name *</label>
+                            <v-text-field
+                              v-model="formData.familyName"
+                              placeholder="Enter family name"
+                              variant="outlined"
+                              density="comfortable"
+                              :rules="[(v) => !!v || 'Family Name is required']"
+                            />
+                          </v-col>
+                        </v-row>
+                      </div>
                     </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Father’s Name *</label>
-                      <v-text-field
-                        v-model="formData.middleName"
-                        placeholder="Enter your father's name"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[(v) => !!v || 'Father’s Name is required']"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Grandfather’s Name *</label>
-                      <v-text-field
-                        v-model="formData.nationalId"
-                        placeholder="Enter your Grandfather’s Name"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[
-                          (v) => !!v || 'Grandfather’s Name is required',
-                        ]"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Family Name *</label>
-                      <v-text-field
-                        v-model="formData.familyName"
-                        placeholder="Enter your family name"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[(v) => !!v || 'Family Name is required']"
-                      ></v-text-field>
+
+                    <!-- National ID -->
+                    <v-col cols="12">
+                      <div class="national-box">
+                        <label class="input-label">
+                          National Number (10 digits) *
+                        </label>
+
+                        <v-text-field
+                          v-model="formData.nationalId"
+                          placeholder="Enter 10 digit national number"
+                          variant="outlined"
+                          density="comfortable"
+                          maxlength="10"
+                          type="text"
+                          :rules="[
+                            (v) => !!v || 'National Number is required',
+                            (v) =>
+                              /^\d{10}$/.test(v) || 'Must be exactly 10 digits',
+                          ]"
+                        />
+                      </div>
                     </v-col>
                   </v-row>
 
                   <!-- European Fields -->
-                  <v-row v-if="formData.nationality === 'European'">
-                    <v-col cols="12">
-                      <label class="input-label">Passport Copy *</label>
+                  <v-row
+                    v-if="
+                      formData.nationality !== 'Jordan' &&
+                      formData.nationality !== ''
+                    "
+                  >
+                    <v-col cols="12" md="6">
+                      <label class="input-label"
+                        >Passport Copy (for visa waiver purposes) *
+                      </label>
                       <v-file-upload
                         v-model="formData.passportFile"
                         density="compact"
                         variant="compact"
-                        accept="image/jpeg,image/png,image/jpg"
+                        accept="image/jpeg,image/png,application/pdf"
                       ></v-file-upload>
                     </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">First Name *</label>
-                      <v-text-field
-                        v-model="formData.firstName"
-                        placeholder="Enter your first name"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[(v) => !!v || 'First Name is required']"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Last Name *</label>
-                      <v-text-field
-                        v-model="formData.lastName"
-                        placeholder="Enter your last name"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[(v) => !!v || 'Last Name is required']"
-                      ></v-text-field>
+                    <v-col cols="12">
+                      <div class="full-name-wrapper">
+                        <div class="mb-4 font-weight-medium">Full Name</div>
+                        <v-row>
+                          <v-col cols="12" md="6">
+                            <label class="input-label">First Name *</label>
+                            <v-text-field
+                              v-model="formData.firstName"
+                              placeholder="Enter your first name"
+                              variant="outlined"
+                              density="comfortable"
+                              :rules="[(v) => !!v || 'First Name is required']"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <label class="input-label">Last Name *</label>
+                            <v-text-field
+                              v-model="formData.lastName"
+                              placeholder="Enter your last name"
+                              variant="outlined"
+                              density="comfortable"
+                              :rules="[(v) => !!v || 'Last Name is required']"
+                            ></v-text-field>
+                          </v-col>
+                        </v-row>
+                      </div>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -221,175 +274,22 @@
                             v-model="formData.phoneCode"
                             :items="[
                               '+962',
-                              '+44',
-                              '+1',
-                              '+93',
-                              '+355',
-                              '+213',
-                              '+376',
-                              '+244',
-                              '+54',
-                              '+374',
-                              '+61',
-                              '+43',
-                              '+994',
-                              '+973',
-                              '+880',
-                              '+375',
-                              '+32',
-                              '+501',
-                              '+229',
-                              '+975',
-                              '+591',
-                              '+387',
-                              '+267',
-                              '+55',
-                              '+673',
-                              '+359',
-                              '+226',
-                              '+257',
-                              '+855',
-                              '+237',
-                              '+1',
-                              '+238',
-                              '+236',
-                              '+235',
-                              '+56',
-                              '+86',
-                              '+57',
-                              '+269',
-                              '+242',
-                              '+506',
-                              '+225',
-                              '+385',
-                              '+53',
-                              '+357',
-                              '+420',
-                              '+45',
-                              '+253',
-                              '+1',
-                              '+593',
-                              '+20',
-                              '+503',
-                              '+240',
-                              '+291',
-                              '+372',
-                              '+251',
-                              '+679',
-                              '+358',
-                              '+33',
-                              '+241',
-                              '+220',
-                              '+995',
-                              '+49',
-                              '+233',
-                              '+30',
-                              '+502',
-                              '+224',
-                              '+245',
-                              '+592',
-                              '+509',
-                              '+504',
-                              '+36',
-                              '+354',
-                              '+91',
-                              '+62',
-                              '+98',
-                              '+964',
-                              '+353',
-                              '+972',
-                              '+39',
-                              '+81',
-                              '+7',
-                              '+254',
-                              '+965',
-                              '+996',
-                              '+856',
-                              '+371',
-                              '+961',
-                              '+266',
-                              '+231',
-                              '+218',
-                              '+423',
-                              '+370',
-                              '+352',
-                              '+261',
-                              '+265',
-                              '+60',
-                              '+960',
-                              '+223',
-                              '+356',
-                              '+222',
-                              '+230',
-                              '+52',
-                              '+373',
-                              '+377',
-                              '+976',
-                              '+382',
-                              '+212',
-                              '+258',
-                              '+95',
-                              '+264',
-                              '+977',
-                              '+31',
-                              '+64',
-                              '+505',
-                              '+227',
-                              '+234',
-                              '+850',
-                              '+47',
-                              '+968',
-                              '+92',
-                              '+970',
-                              '+507',
-                              '+675',
-                              '+595',
-                              '+51',
-                              '+63',
-                              '+48',
-                              '+351',
-                              '+974',
-                              '+40',
-                              '+7',
-                              '+250',
-                              '+966',
-                              '+221',
-                              '+381',
-                              '+248',
-                              '+232',
-                              '+65',
-                              '+421',
-                              '+386',
-                              '+252',
-                              '+27',
-                              '+82',
-                              '+211',
-                              '+34',
-                              '+94',
-                              '+249',
-                              '+597',
-                              '+46',
-                              '+41',
-                              '+963',
-                              '+886',
-                              '+992',
-                              '+255',
-                              '+66',
-                              '+228',
-                              '+216',
-                              '+90',
-                              '+993',
-                              '+256',
-                              '+380',
                               '+971',
-                              '+598',
-                              '+998',
-                              '+678',
-                              '+58',
-                              '+84',
-                              '+967',
-                              '+260',
-                              '+263',
+                              '+966',
+                              '+965',
+                              '+974',
+                              '+973',
+                              '+968',
+                              '+964',
+                              '+20',
+                              '+44',
+                              '+49',
+                              '+33',
+                              '+39',
+                              '+34',
+                              '+31',
+                              '+1',
+                              '+92',
                             ]"
                             label="Choose Country"
                             variant="outlined"
@@ -432,36 +332,30 @@
                       <label class="input-label">Entity *</label>
                       <v-text-field
                         v-model="formData.company"
-                        placeholder="Your Entity name"
+                        placeholder="Enter entity"
                         variant="outlined"
                         density="comfortable"
                         :rules="[(v) => !!v || 'Entity is required']"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
-                      <label class="input-label">Official Website *</label>
+                      <label class="input-label"
+                        >Official Website (Optional)</label
+                      >
                       <v-text-field
                         v-model="formData.website"
                         placeholder="Provide URL"
                         variant="outlined"
                         density="comfortable"
                         type="url"
-                        :rules="[(v) => !!v || 'Website is required']"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
                       <label class="input-label">Sector *</label>
                       <v-select
                         v-model="formData.industry"
-                        label="Select an Sector"
+                        label="Select an industry"
                         :items="[
-                          'Investment',
-                          'Tech',
-                          'Trade',
-                          'Finance',
-                          'Manufacturing',
-                          'Governmental',
-                          'Humanitarian',
                           'Digital & Technology',
                           'Water',
                           'Energy',
@@ -469,22 +363,12 @@
                           'Regional Gateways',
                           'High value Industries',
                           'Financial Institutions',
-                          'Other',
+                          'Governmental',
+                          'Humanitarian',
                         ]"
                         variant="outlined"
                         density="comfortable"
-                        :rules="[(v) => !!v || 'Industry is required']"
-                      ></v-select>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Country *</label>
-                      <v-select
-                        v-model="formData.country"
-                        label="Select your country"
-                        :items="countries"
-                        variant="outlined"
-                        density="comfortable"
-                        :rules="[(v) => !!v || 'Country is required']"
+                        :rules="[(v) => !!v || 'Sector is required']"
                       ></v-select>
                     </v-col>
                   </v-row>
@@ -493,121 +377,172 @@
 
               <!-- Step 4: About You -->
               <v-window-item :value="4">
-                <h2 class="text-h5 font-weight-bold mb-6">About You</h2>
-                <v-form @submit.prevent>
-                  <v-row>
-                    <v-col cols="12" md="6">
-                      <label class="input-label"
-                        >LinkedIn Profile URL (Optional)</label
-                      >
-                      <v-text-field
-                        v-model="formData.linkedinUrl"
-                        placeholder="https://linkedin.com/in/yourprofile"
-                        variant="outlined"
-                        density="comfortable"
-                        type="url"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12">
-                      <label class="input-label"
-                        >Professional Bio (Optional)</label
-                      >
-                      <v-textarea
-                        v-model="formData.bio"
-                        placeholder="Share your professional background (optional)"
-                        variant="outlined"
-                        density="comfortable"
-                        rows="6"
-                        counter="500"
-                        maxlength="500"
-                      ></v-textarea>
-                      <p class="text-caption text-grey mt-2">
-                        {{ formData.bio ? formData.bio.length : 0 }} characters
-                      </p>
-                    </v-col>
-                  </v-row>
-                </v-form>
+                <div class="inner-section-card">
+                  <h2 class="section-title">About You</h2>
+
+                  <v-form @submit.prevent>
+                    <v-row class="mt-6">
+                      <v-col cols="12" md="6">
+                        <label class="section-label">
+                          Professional Bio (Optional)
+                        </label>
+                        <v-textarea
+                          v-model="formData.bio"
+                          placeholder="Share your professional background"
+                          variant="outlined"
+                          density="comfortable"
+                          rows="4"
+                          counter="500"
+                          maxlength="500"
+                        />
+                        <div class="section-counter">
+                          {{ formData.bio.length }} characters (minimum 20
+                          required)
+                        </div>
+                      </v-col>
+                      <v-col cols="12" md="6">
+                        <label class="section-label">
+                          LinkedIn Profile URL (Optional)
+                        </label>
+                        <v-text-field
+                          v-model="formData.linkedinUrl"
+                          placeholder="https://linkedin.com/in/yourprofile"
+                          variant="outlined"
+                          density="comfortable"
+                          type="url"
+                        />
+                      </v-col>
+                    </v-row>
+                  </v-form>
+                </div>
               </v-window-item>
 
               <!-- Step 5: Travel Information -->
               <v-window-item :value="5">
-                <h2 class="text-h5 font-weight-bold mb-6">
-                  Travel Information
-                </h2>
-                <v-form @submit.prevent>
-                  <v-row>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Arrival *</label>
-                      <v-text-field
-                        v-model="formData.arrivalDate"
-                        prepend-inner-icon="mdi-calendar"
-                        placeholder="Select date (YYYY-MM-DD)"
-                        variant="outlined"
-                        density="comfortable"
-                        type="date"
-                        :rules="[(v) => !!v || 'Arrival date is required']"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="formData.arrivalTime"
-                        prepend-inner-icon="mdi-clock-outline"
-                        placeholder="Select time (HH:MM)"
-                        variant="outlined"
-                        density="comfortable"
-                        type="time"
-                        class="mt-3"
-                        :rules="[(v) => !!v || 'Arrival time is required']"
-                      ></v-text-field>
-                      <p class="text-caption text-grey mt-2">
-                        Queen Alia International Airport (AMM)
-                      </p>
-                    </v-col>
-                    <v-col cols="12" md="6">
-                      <label class="input-label">Departure *</label>
-                      <v-text-field
-                        v-model="formData.departureDate"
-                        prepend-inner-icon="mdi-calendar"
-                        placeholder="Select date (YYYY-MM-DD)"
-                        variant="outlined"
-                        density="comfortable"
-                        type="date"
-                        :rules="[(v) => !!v || 'Departure date is required']"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="formData.departureTime"
-                        prepend-inner-icon="mdi-clock-outline"
-                        placeholder="Select time (HH:MM)"
-                        variant="outlined"
-                        density="comfortable"
-                        type="time"
-                        class="mt-3"
-                        :rules="[(v) => !!v || 'Departure time is required']"
-                      ></v-text-field>
-                      <p class="text-caption text-grey mt-2">
-                        Queen Alia International Airport (AMM)
-                      </p>
-                    </v-col>
-                  </v-row>
-                  <v-alert
-                    color="#f8faf0"
-                    class="mt-6 border-none text-black airport-alert"
-                    rounded="lg"
-                  >
-                    <div
-                      class="text-subtitle-2 font-weight-bold text-light-green-darken-3"
-                    >
-                      Airport Transfer Service
+                <div class="travel-card">
+                  <h2 class="section-title">Travel Details</h2>
+
+                  <v-form @submit.prevent>
+                    <v-row>
+                      <v-col cols="12" md="6">
+                        <label class="section-label">
+                          Arrival <span class="required">*</span>
+                        </label>
+
+                        <div class="field-label">Date</div>
+
+                        <v-text-field
+                          v-model="formData.arrivalDate"
+                          prepend-inner-icon="mdi-calendar"
+                          placeholder="Select date"
+                          variant="outlined"
+                          density="comfortable"
+                          type="date"
+                          :rules="[(v) => !!v || 'Arrival date is required']"
+                        />
+
+                        <div class="field-label mt-4">Time</div>
+
+                        <v-text-field
+                          v-model="formData.arrivalTime"
+                          prepend-inner-icon="mdi-clock-outline"
+                          placeholder="Select time"
+                          variant="outlined"
+                          density="comfortable"
+                          type="time"
+                          :rules="[(v) => !!v || 'Arrival time is required']"
+                        />
+
+                        <div class="airport-text">
+                          Queen Alia International Airport (AMM)
+                        </div>
+                      </v-col>
+
+                      <v-col cols="12" md="6">
+                        <label class="section-label">
+                          Departure <span class="required">*</span>
+                        </label>
+
+                        <div class="field-label">Date</div>
+
+                        <v-text-field
+                          v-model="formData.departureDate"
+                          prepend-inner-icon="mdi-calendar"
+                          placeholder="Select date"
+                          variant="outlined"
+                          density="comfortable"
+                          type="date"
+                          :rules="[(v) => !!v || 'Departure date is required']"
+                        />
+
+                        <div class="field-label mt-4">Time</div>
+
+                        <v-text-field
+                          v-model="formData.departureTime"
+                          prepend-inner-icon="mdi-clock-outline"
+                          placeholder="Select time"
+                          variant="outlined"
+                          density="comfortable"
+                          type="time"
+                          :rules="[(v) => !!v || 'Departure time is required']"
+                        />
+
+                        <div class="airport-text">
+                          Queen Alia International Airport (AMM)
+                        </div>
+                      </v-col>
+                    </v-row>
+                    <v-row class="mt-6">
+                      <v-col cols="12" md="6">
+                        <label class="section-label">
+                          Hotel Name
+                          <span class="optional">(if already booked)</span>
+                        </label>
+
+                        <v-select
+                          v-model="formData.hotel"
+                          :items="hotels"
+                          placeholder="Select hotel"
+                          variant="outlined"
+                          density="comfortable"
+                          hide-details
+                        />
+                      </v-col>
+
+                      <v-col cols="12" md="6" v-if="formData.hotel === 'Other'">
+                        <label class="section-label invisible-label">
+                          Custom Hotel
+                        </label>
+
+                        <v-text-field
+                          v-model="formData.hotel_name"
+                          placeholder="Enter hotel name"
+                          variant="outlined"
+                          density="comfortable"
+                          clearable
+                          hide-details
+                        />
+                      </v-col>
+                    </v-row>
+
+                    <div class="hotel-link">
+                      Haven't booked yet?
+                      <a href="#"
+                        >Explore Partner Hotels with Special Conference Rates</a
+                      >
                     </div>
-                    <div class="text-body-2 text-light-green-darken-2">
-                      Complimentary pickup and drop-off to Dead Sea
+                    <div class="transfer-box mt-8">
+                      <div class="transfer-title">Airport Transfer Service</div>
+                      <div class="transfer-sub">
+                        Complimentary pickup and drop-off to Dead Sea
+                      </div>
+                      <div class="transfer-note">
+                        A driver will meet you at the arrivals hall with your
+                        name displayed. Travel time approximately 45 minutes.
+                      </div>
                     </div>
-                    <div class="text-caption text-light-green-darken-1">
-                      A driver will meet you at the arrivals hall with your name
-                      displayed. Travel time approximately 45 minutes.
-                    </div>
-                  </v-alert>
-                </v-form>
+                  </v-form>
+                </div>
               </v-window-item>
             </v-window>
 
@@ -647,8 +582,7 @@
                 color="#003192"
                 class="text-none px-10 rounded-lg text-white"
                 elevation="0"
-                :disabled="!isCurrentStepValid() || isSubmitting"
-                :loading="isSubmitting"
+                :disabled="!isCurrentStepValid()"
                 @click="submitForm"
               >
                 <v-icon start icon="mdi-check-circle-outline"></v-icon> Submit
@@ -662,16 +596,210 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
-
+import { watch } from "vue";
 const router = useRouter();
 const currentStep = ref(1);
 const showSuccessMessage = ref(false);
-const showErrorMessage = ref(false);
-const errorMessage = ref("");
-const isSubmitting = ref(false);
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+
+const nationalities = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Antigua and Barbuda",
+  "Argentina",
+  "Armenia",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia and Herzegovina",
+  "Botswana",
+  "Brazil",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cabo Verde",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Comoros",
+  "Congo (Congo-Brazzaville)",
+  "Costa Rica",
+  "Croatia",
+  "Cuba",
+  "Cyprus",
+  "Czechia",
+  "Côte d'Ivoire",
+  "Democratic Republic of the Congo",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Eswatini",
+  "Ethiopia",
+  "Fiji",
+  "Finland",
+  "France",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Greece",
+  "Grenada",
+  "Guatemala",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Micronesia",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "North Korea",
+  "North Macedonia",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Palestine",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Qatar",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "Sao Tome and Principe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Korea",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "Sudan",
+  "Suriname",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Timor-Leste",
+  "Togo",
+  "Tonga",
+  "Trinidad and Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Tuvalu",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Vatican City",
+  "Venezuela",
+  "Vietnam",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+  "Other",
+];
 
 const countries = [
   "Afghanistan",
@@ -876,6 +1004,8 @@ const formData = ref({
   // Step 1
   nationality: "",
   firstName: "",
+  father_name: "",
+  grandfather_name: "",
   middleName: "",
   familyName: "",
   nationalId: "",
@@ -899,8 +1029,16 @@ const formData = ref({
   arrivalTime: "",
   departureDate: "",
   departureTime: "",
+  hotel: "",
+  hotel_name: "",
 });
-
+const hotels = [
+  "Mövenpick Resort & Spa Dead Sea",
+  "Hilton Dead Sea",
+  "Dead Sea Marriott Resort & Spa",
+  "Kempinski Hotel Ishtar Dead Sea",
+  "Other",
+];
 const steps = [
   { title: "Personal Info", subtitle: "Basic details" },
   { title: "Contact Info", subtitle: "Communication" },
@@ -908,19 +1046,27 @@ const steps = [
   { title: "About You", subtitle: "Your profile" },
   { title: "Travel", subtitle: "Planning" },
 ];
-
+watch(
+  () => formData.value.hotel,
+  (val) => {
+    if (val !== "Other") {
+      formData.value.hotel_name = "";
+    }
+  },
+);
 const isCurrentStepValid = () => {
   switch (currentStep.value) {
     case 1:
       if (!formData.value.nationality) return false;
-      if (formData.value.nationality === "Jordanian") {
+      if (formData.value.nationality === "Jordan") {
         return !!(
           formData.value.firstName &&
-          formData.value.middleName &&
+          formData.value.father_name &&
+          formData.value.grandfather_name &&
           formData.value.familyName &&
           formData.value.nationalId
         );
-      } else if (formData.value.nationality === "European") {
+      } else if (formData.value.nationality !== "Jordan") {
         return !!(
           formData.value.firstName &&
           formData.value.lastName &&
@@ -936,12 +1082,10 @@ const isCurrentStepValid = () => {
       return !!(
         formData.value.jobTitle &&
         formData.value.company &&
-        formData.value.website &&
-        formData.value.industry &&
-        formData.value.country
+        formData.value.industry
       );
     case 4:
-      return true; // All fields optional
+      return true; // All fields optional, so always valid
     case 5:
       return !!(
         formData.value.arrivalDate &&
@@ -954,109 +1098,18 @@ const isCurrentStepValid = () => {
   }
 };
 
-const getPassportFile = () => {
-  if (
-    !Array.isArray(formData.value.passportFile) ||
-    formData.value.passportFile.length === 0
-  ) {
-    return null;
-  }
-
-  const raw = formData.value.passportFile[0];
-  return raw?.raw || raw?.file || raw;
-};
-
-const buildRegistrationPayload = () => {
-  const payload = new FormData();
-  const isJordanian = formData.value.nationality === "Jordanian";
-  const lastName = isJordanian
-    ? formData.value.familyName
-    : formData.value.lastName;
-  const normalizedPhone = formData.value.phoneNumber
-    ? `${formData.value.phoneCode}${formData.value.phoneNumber}`.replace(
-        /\s+/g,
-        "",
-      )
-    : "";
-
-  payload.append("email", formData.value.email);
-  payload.append("first_name", formData.value.firstName);
-  payload.append("last_name", lastName || "");
-  payload.append("job_title", formData.value.jobTitle);
-  payload.append("company", formData.value.company);
-  payload.append("industry", formData.value.industry);
-  payload.append("website", formData.value.website);
-  payload.append("nationality", formData.value.nationality);
-  payload.append("country", formData.value.country);
-  payload.append("arrival_date", formData.value.arrivalDate);
-  payload.append("arrival_time", formData.value.arrivalTime);
-  payload.append("departure_date", formData.value.departureDate);
-  payload.append("departure_time", formData.value.departureTime);
-
-  if (normalizedPhone) payload.append("phone", normalizedPhone);
-  if (formData.value.bio) payload.append("bio", formData.value.bio);
-  if (formData.value.linkedinUrl)
-    payload.append("linked_in_profile", formData.value.linkedinUrl);
-
-  if (isJordanian) {
-    payload.append("middle_name", formData.value.middleName);
-    payload.append("family_name", formData.value.familyName);
-    payload.append("national_id", formData.value.nationalId);
-  } else {
-    const passport = getPassportFile();
-    if (passport) payload.append("passport_image", passport);
-  }
-
-  return payload;
-};
-
-const getApiErrorMessage = (result) => {
-  if (result?.errors && typeof result.errors === "object") {
-    const firstKey = Object.keys(result.errors)[0];
-    if (
-      firstKey &&
-      Array.isArray(result.errors[firstKey]) &&
-      result.errors[firstKey][0]
-    ) {
-      return result.errors[firstKey][0];
-    }
-  }
-
-  return result?.message || "Failed to submit registration form.";
-};
-
 const submitForm = async () => {
-  if (!isCurrentStepValid() || isSubmitting.value) return;
+  if (isCurrentStepValid()) {
+    // Here you would typically send the form data to your backend
+    console.log("Form submitted:", formData.value);
 
-  isSubmitting.value = true;
-  showErrorMessage.value = false;
-  errorMessage.value = "";
-
-  try {
-    const response = await fetch(`${apiBaseUrl}/api/register`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: buildRegistrationPayload(),
-    });
-
-    const result = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      throw new Error(getApiErrorMessage(result));
-    }
-
+    // Show success message
     showSuccessMessage.value = true;
+
+    // Redirect after delay
     setTimeout(() => {
-      router.push("/");
+      router.push("/success");
     }, 2000);
-  } catch (error) {
-    errorMessage.value =
-      error?.message || "Something went wrong while submitting the form.";
-    showErrorMessage.value = true;
-  } finally {
-    isSubmitting.value = false;
   }
 };
 </script>
@@ -1195,17 +1248,14 @@ const submitForm = async () => {
 }
 
 .active .step-circle {
-  background: linear-gradient(135deg, #003192 0%, #0052cc 100%);
   color: white;
-  border-color: #003192;
-  box-shadow: 0 8px 24px rgba(0, 49, 146, 0.5);
+  border-color: #1f2937;
   transform: scale(1.15);
 }
 
 .completed .step-circle {
-  background: linear-gradient(135deg, #7cb342 0%, #9ccc65 100%);
   color: white;
-  border-color: #7cb342;
+  border-color: #1f2937;
   box-shadow: 0 6px 18px rgba(139, 195, 74, 0.4);
   animation: checkPulse 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -1398,5 +1448,486 @@ const submitForm = async () => {
   .registration-card {
     border-radius: 16px !important;
   }
+}
+.registration-wrapper {
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  padding: 40px 0;
+}
+
+/* ================= CARD ================= */
+
+.registration-card {
+  border-radius: 20px !important;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05) !important;
+}
+.registration-card:hover {
+  transform: none !important;
+}
+
+/* ================= STEPPER ================= */
+
+.stepper-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e9eef5;
+  padding: 16px 24px;
+  border-radius: 14px;
+}
+
+.stepper-item {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #d1d5db;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active .step-circle {
+  background: #1f2937;
+  border-color: #1f2937;
+  color: white;
+}
+
+.completed .step-circle {
+  background: #1f2937;
+  color: white;
+}
+
+.step-line {
+  height: 2px;
+  background: #1f2937;
+  flex: 1;
+  margin: 0 12px;
+}
+
+.completed .step-line {
+  background: #1f2937 !important;
+}
+
+.label-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.label-subtitle {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ================= TITLES ================= */
+
+h2 {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #1f2937 !important;
+}
+
+/* ================= LABELS ================= */
+
+.input-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 6px;
+}
+
+/* ================= INPUTS ================= */
+
+:deep(.v-field--variant-outlined) {
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+:deep(.v-field__outline) {
+  color: #e5e7eb;
+}
+
+:deep(.v-field--focused .v-field__outline) {
+  color: #1e3a8a;
+}
+
+:deep(.v-field--focused) {
+  box-shadow: none !important;
+}
+
+/* Upload Zone */
+
+:deep(.v-file-upload .v-field__input) {
+  border: 2px dashed #d1d5db !important;
+  padding: 45px !important;
+  background: #f9fafb !important;
+  text-align: center;
+}
+
+/* ================= FULL NAME BOX ================= */
+
+.full-name-wrapper {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* ================= ALERT ================= */
+
+.airport-alert {
+  border-left: 4px solid #84cc16 !important;
+  background: #f8faf0 !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}
+
+/* ================= BUTTONS ================= */
+
+:deep(.v-btn) {
+  text-transform: none;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: none !important;
+}
+
+:deep(.v-btn--variant-outlined) {
+  border: 1px solid #1e3a8a;
+  color: #1e3a8a !important;
+  background: white;
+}
+
+:deep(.v-btn--variant-outlined:hover) {
+  background: #f3f4f6;
+}
+
+:deep(.v-btn[color="#003192"]),
+:deep(.v-btn--color-primary) {
+  background: #1e3a8a !important;
+}
+
+:deep(.v-btn[color="#003192"]:hover),
+:deep(.v-btn--color-primary:hover) {
+  background: #1e40af !important;
+}
+
+:deep(.v-divider) {
+  border-color: #e5e7eb;
+}
+
+/* ================= REMOVE ANIMATION ================= */
+
+:deep(.v-window-item) {
+  animation: none !important;
+}
+/* INPUT & SELECT BORDER FIX */
+
+:deep(.v-field--variant-outlined .v-field__outline) {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+:deep(.v-field:hover .v-field__outline) {
+  color: #94a3b8 !important;
+}
+
+:deep(.v-field--focused .v-field__outline) {
+  color: #1e3a8a !important;
+}
+
+:deep(.v-field--focused) {
+  box-shadow: none !important;
+}
+/* ================= GLOBAL TEXT COLOR ================= */
+
+.registration-card {
+  color: #374151 !important;
+}
+
+.registration-card h2 {
+  color: #1f2937 !important;
+  font-weight: 600;
+}
+
+/* Labels */
+.input-label {
+  color: #374151 !important;
+  font-weight: 600;
+}
+
+/* Placeholder */
+:deep(input::placeholder),
+:deep(textarea::placeholder) {
+  color: #9ca3af !important;
+  opacity: 1;
+}
+
+:deep(.v-text-field input),
+:deep(.v-textarea textarea),
+:deep(.v-select .v-field__input) {
+  color: #374151 !important;
+  font-weight: 500;
+}
+
+.label-title {
+  color: #374151 !important;
+}
+
+.label-subtitle {
+  color: #9ca3af !important;
+}
+
+.registration-card * {
+  color: inherit;
+}
+
+.active + .step-line,
+.active .step-line {
+  background: #dc2626 !important;
+}
+/* ===== INNER CARD EXACT MATCH ===== */
+
+.inner-section-card {
+  background: #f5f6f8;
+  border: 1px solid #e4e7ec;
+  border-radius: 14px;
+  padding: 32px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+/* Title */
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
+
+/* Labels */
+.section-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #344054;
+  margin-bottom: 6px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+/* Counter */
+.section-counter {
+  font-size: 12px;
+  color: #98a2b3;
+  margin-top: 6px;
+}
+
+/* ===== INPUT EXACT STYLE ===== */
+
+.inner-section-card :deep(.v-field--variant-outlined) {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+.inner-section-card :deep(.v-field__outline) {
+  color: #d0d5dd !important;
+}
+
+.inner-section-card :deep(.v-field:hover .v-field__outline) {
+  color: #cbd5e1 !important;
+}
+
+.inner-section-card :deep(.v-field--focused .v-field__outline) {
+  color: #1f2937 !important;
+}
+
+.inner-section-card :deep(input),
+.inner-section-card :deep(textarea) {
+  font-size: 14px;
+  font-weight: 400;
+  color: #344054;
+}
+
+.inner-section-card :deep(input::placeholder),
+.inner-section-card :deep(textarea::placeholder) {
+  color: #98a2b3;
+  opacity: 1;
+}
+
+/* textarea height match */
+.inner-section-card :deep(.v-textarea textarea) {
+  min-height: 110px;
+}
+/* ===== CARD WRAPPER ===== */
+
+.travel-card {
+  background: #f5f6f8;
+  border: 1px solid #e4e7ec;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+/* ===== TITLE ===== */
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
+
+/* ===== LABELS ===== */
+
+.section-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #344054;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.required {
+  color: #dc2626;
+}
+
+.field-label {
+  font-size: 12px;
+  color: #98a2b3;
+  margin-bottom: 6px;
+}
+
+.airport-text {
+  font-size: 12px;
+  color: #98a2b3;
+  margin-top: 8px;
+}
+
+/* ===== INPUT STYLE ===== */
+
+.travel-card :deep(.v-field--variant-outlined) {
+  background: #ffffff;
+  border-radius: 12px;
+}
+
+.travel-card :deep(.v-field__outline) {
+  color: #d0d5dd !important;
+}
+
+.travel-card :deep(.v-field--focused .v-field__outline) {
+  color: #1f2937 !important;
+}
+
+.travel-card :deep(input) {
+  font-size: 14px;
+  color: #344054;
+}
+
+/* ===== TRANSFER BOX ===== */
+
+.transfer-box {
+  background: #f2f4f7;
+  border: 1px solid #e4e7ec;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.transfer-title {
+  font-weight: 600;
+  color: #344054;
+}
+
+.transfer-sub {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #344054;
+}
+
+.transfer-note {
+  font-size: 13px;
+  color: #667085;
+  margin-top: 6px;
+}
+.optional {
+  font-weight: 400;
+  font-size: 12px;
+  color: #98a2b3;
+}
+
+.invisible-label {
+  visibility: hidden;
+}
+
+.hotel-link {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #344054;
+}
+
+.hotel-link a {
+  color: #1d4ed8;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+/* Dropdown style match */
+.travel-card :deep(.v-select .v-field__outline) {
+  color: #d0d5dd !important;
+}
+
+.travel-card :deep(.v-list-item) {
+  font-size: 14px;
+  color: #344054;
+}
+/* ===== FULL NAME BOX ===== */
+
+.full-name-box {
+  background: #e9eef5;
+  border: 1px solid #d0d5dd;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.full-name-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #344054;
+  margin-bottom: 16px;
+}
+
+/* ===== NATIONAL BOX ===== */
+
+.national-box {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  border: 1px solid #d0d5dd;
+}
+
+/* Input consistency */
+
+.national-box :deep(.v-field--variant-outlined),
+.full-name-box :deep(.v-field--variant-outlined) {
+  background: #ffffff;
+  border-radius: 12px;
+}
+
+.national-box :deep(.v-field__outline),
+.full-name-box :deep(.v-field__outline) {
+  color: #cbd5e1 !important;
+}
+
+.national-box :deep(.v-field--focused .v-field__outline),
+.full-name-box :deep(.v-field--focused .v-field__outline) {
+  color: #1f2937 !important;
 }
 </style>
