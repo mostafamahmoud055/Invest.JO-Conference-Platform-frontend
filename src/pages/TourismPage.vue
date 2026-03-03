@@ -1,30 +1,54 @@
 <script setup lang="ts">
 import DestinationCard from "@/components/DestinationCard.vue";
 import HotelCard from "@/components/Hotel.vue";
+
 const destinations = [
   {
     title: "Petra - The Rose City",
-    img: "/images/partners/img-1.jpg",
+    img: "/images/tourism/img-1.jpg",
   },
   {
     title: "Wadi Rum Desert",
-    img: "/images/partners/img-2.jpg",
+    img: "/images/tourism/img-2.jpg",
   },
   {
     title: "Dead Sea",
-    img: "/images/partners/img-3.jpg",
+    img: "/images/tourism/img-3.jpg",
   },
   {
     title: "Jerash",
-    img: "/images/partners/img-4.jpg",
+    img: "/images/tourism/img-4.jpg",
   },
   {
     title: "Aqaba & Red Sea",
-    img: "/images/partners/img-5.jpg",
+    img: "/images/tourism/img-5.jpg",
   },
   {
     title: "Amman",
-    img: "/images/partners/img-6.jpg",
+    img: "/images/tourism/img-6.jpg",
+  },
+];
+
+const hotels = [
+  {
+    name: "Kempinski Hotel Ishtar Dead Sea",
+    price: "JOD 140",
+    img: "/images/tourism/bg-1.png",
+  },
+  {
+    name: "Hilton Dead Sea Resort & Spa",
+    price: "JOD 130",
+    img: "/images/tourism/bg-2.png",
+  },
+  {
+    name: "Movenpick Resort & Spa Dead Sea",
+    price: "JOD 255",
+    img: "/images/tourism/bg-3.png",
+  },
+  {
+    name: "Marriott Dead Sea Resort & Spa",
+    price: "JOD 100",
+    img: "/images/tourism/bg-4.png",
   },
 ];
 </script>
@@ -60,10 +84,10 @@ const destinations = [
               <i class="mdi mdi-map-marker-outline"></i>
             </div>
             <h4>Easy to Explore</h4>
-            <span
-              >Compact geography makes it easy to visit multiple sites in a
-              short time</span
-            >
+            <span>
+              Compact geography makes it easy to visit multiple sites in a
+              short time
+            </span>
           </div>
 
           <div class="feature">
@@ -90,14 +114,14 @@ const destinations = [
       <div class="container">
         <h2 class="center">Must-Visit Destinations</h2>
 
-          <div class="dest-grid">
-            <DestinationCard
-              v-for="(item, index) in destinations"
-              :key="index"
-              :title="item.title"
-              :img="item.img"
-            />
-          </div>
+        <div class="dest-grid">
+          <DestinationCard
+            v-for="(item, index) in destinations"
+            :key="index"
+            :title="item.title"
+            :img="item.img"
+          />
+        </div>
       </div>
     </section>
 
@@ -106,12 +130,18 @@ const destinations = [
       <div class="container">
         <h2>Partner Hotels with Special Conference Rates</h2>
         <div class="red-line"></div>
+        <p class="hotels-subtitle">
+          Use the booking links below to access the conference rates
+        </p>
 
         <div class="hotel-grid">
-          <HotelCard name="Kempinski Hotel Ishtar Dead Sea" price="JOD 140" />
-          <HotelCard name="Hilton Dead Sea Resort & Spa" price="JOD 130" />
-          <HotelCard name="Mövenpick Resort & Spa Dead Sea" price="JOD 255" />
-          <HotelCard name="Marriott Dead Sea Resort & Spa" price="JOD 100" />
+          <HotelCard
+            v-for="hotel in hotels"
+            :key="hotel.name"
+            :name="hotel.name"
+            :price="hotel.price"
+            :img="hotel.img"
+          />
         </div>
       </div>
     </section>
@@ -199,11 +229,11 @@ const destinations = [
   padding: 80px 0;
 }
 
-.dest-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:28px;
-  margin-top:50px;
+.dest-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-top: 50px;
 }
 
 .dest-card {
@@ -240,10 +270,21 @@ const destinations = [
   margin: 15px 0 40px;
 }
 
-.hotel-grid{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:28px;
+.hotels-subtitle {
+  margin: -20px 0 32px;
+  color: #4a5565;
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 29.25px;
+  letter-spacing: -0.439px;
+}
+
+.hotel-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
 }
 
 .hotel-card {

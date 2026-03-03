@@ -38,8 +38,7 @@
           :key="link.label"
           :to="link.to"
           class="nav-link"
-          active-class="is-active"
-          exact-active-class="is-active"
+          :class="{ 'is-active': isNavLinkActive(link) }"
         >
           {{ link.label }}
         </RouterLink>
@@ -75,6 +74,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
 
 defineProps({
   overlay: {
@@ -86,6 +86,7 @@ defineProps({
 const isScrolled = ref(false);
 const logoMissing = ref(false);
 const logoSourceIndex = ref(0);
+const route = useRoute();
 const logoSources = ["/images/logo.png", "/images/logo.png"];
 const logoSrc = computed(() => logoSources[logoSourceIndex.value]);
 
@@ -94,12 +95,28 @@ const navLinks = [
   { label: "About", to: { name: "About" } },
   { label: "Agenda", to: { name: "Agenda" } },
   { label: "Speakers", to: { name: "Speakers" } },
-  { label: "Investment Opportunities", to: { name: "InvestmentOpportunities" } },
+  {
+    label: "Investment Opportunities",
+    to: { name: "InvestmentOpportunities" },
+    activeNames: ["InvestmentOpportunities", "InvestmentOpportunitiesDetails"],
+  },
   { label: "Tourism", to: { name: "Tourism" } },
   { label: "Partners", to: { name: "Partners" } },
   { label: "News Updates", to: { name: "NewsUpdates" } },
   { label: "Contact", to: { name: "Contact" } },
 ];
+
+const isNavLinkActive = (link) => {
+  const routeName = route.name?.toString();
+  if (!routeName) return false;
+
+  if (Array.isArray(link.activeNames) && link.activeNames.length > 0) {
+    return link.activeNames.includes(routeName);
+  }
+
+  const linkRouteName = link.to?.name?.toString();
+  return linkRouteName === routeName;
+};
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 32;

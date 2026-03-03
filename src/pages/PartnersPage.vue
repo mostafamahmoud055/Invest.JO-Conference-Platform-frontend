@@ -1,117 +1,115 @@
-<script setup lang="ts">
-import DestinationCard from "@/components/DestinationCard.vue";
-import HotelCard from "@/components/Hotel.vue";
-const destinations = [
+<script setup>
+const partnerGroups = [
   {
-    title: "Petra - The Rose City",
-    img: "/images/partners/img-1.jpg",
+    title: "Strategic Partners",
+    partners: [
+      {
+        name: "European Investment Bank",
+        image: "/images/partners/european.png",
+      },
+      {
+        name: "World Bank Group",
+        image: "/images/partners/world.png",
+      },
+    ],
   },
   {
-    title: "Wadi Rum Desert",
-    img: "/images/partners/img-2.jpg",
+    title: "Institutional Partners",
+    partners: [
+      {
+        name: "Jordan Investment Commission",
+        image: "/images/partners/nvestment-commission.png",
+      },
+      {
+        name: "Central Bank of Jordan",
+        image: "/images/partners/central_bank.png",
+      },
+      {
+        name: "Amman Chamber of Commerce",
+        image: "/images/partners/Amman_Chamber.png",
+      },
+    ],
   },
   {
-    title: "Dead Sea",
-    img: "/images/partners/img-3.jpg",
+    title: "Gold Partners",
+    partners: [
+      {
+        name: "Jordan Telecom Group",
+        image: "/images/partners/Jordan_Telecom.png",
+      },
+      {
+        name: "Arab Bank",
+        image: "/images/partners/Arab_Bank.png",
+      },
+      {
+        name: "Hikma Pharmaceuticals",
+        image: "/images/partners/Hikma.png",
+      },
+    ],
   },
   {
-    title: "Jerash",
-    img: "/images/partners/img-4.jpg",
-  },
-  {
-    title: "Aqaba & Red Sea",
-    img: "/images/partners/img-5.jpg",
-  },
-  {
-    title: "Amman",
-    img: "/images/partners/img-6.jpg",
+    title: "Silver Partners",
+    partners: [
+      {
+        name: "Jordan Dubai Islamic Bank",
+        image: "/images/partners/Dubai_Islamic_Bank.png",
+      },
+      {
+        name: "Aqaba Development Corporation",
+        image: "/images/partners/Aqaba.png",
+      },
+      {
+        name: "National Electric Power Company",
+        image: "/images/partners/National.png",
+      },
+      {
+        name: "Royal Jordanian Airlines",
+        image: "/images/partners/Royal.png",
+      },
+    ],
   },
 ];
 </script>
 
 <template>
-  <div class="tourism">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container">
-        <h1>Experience Jordan</h1>
-        <div class="underline"></div>
-        <p>
-          Discover ancient wonders, stunning landscapes, and warm hospitality
-        </p>
+  <div class="partners-page">
+    <section class="partners-hero">
+      <div class="page-container">
+        <h1>Our Partners</h1>
+        <p>Thank you to our partners for making this conference possible</p>
       </div>
     </section>
 
-    <!-- WHY VISIT -->
-    <section class="why-section">
-      <div class="container center">
-        <h2>Why Visit Jordan?</h2>
+    <section class="partners-content">
+      <div class="page-container">
+        <div class="partners-group" v-for="group in partnerGroups" :key="group.title">
+          <h2
+            :class="{
+              'partner-tier-title': ['Institutional Partners', 'Gold Partners', 'Silver Partners'].includes(group.title),
+            }"
+          >
+            {{ group.title }}
+          </h2>
 
-        <p class="why-text">
-          Jordan offers a unique blend of ancient history, natural beauty, and
-          modern hospitality. From the iconic ruins of Petra to the serene
-          waters of the Dead Sea. Extend your conference stay and explore a land
-          where history comes alive.
-        </p>
-
-        <div class="why-features">
-          <div class="feature">
-            <div class="icon-circle">
-              <i class="mdi mdi-map-marker-outline"></i>
-            </div>
-            <h4>Easy to Explore</h4>
-            <span
-              >Compact geography makes it easy to visit multiple sites in a
-              short time</span
-            >
+          <div
+            class="partners-grid"
+            :class="[
+              `cols-${group.partners.length}`,
+              { 'strategic-grid': group.title === 'Strategic Partners' },
+            ]"
+          >
+            <article class="partner-card" v-for="partner in group.partners" :key="partner.name">
+              <div class="partner-logo-wrap">
+                <img
+                  class="partner-logo"
+                  :src="partner.image"
+                  :alt="partner.name"
+                  loading="lazy"
+                />
+              </div>
+              <p class="partner-name">{{ partner.name }}</p>
+            </article>
           </div>
-
-          <div class="feature">
-            <div class="icon-circle">
-              <i class="mdi mdi-star-outline"></i>
-            </div>
-            <h4>World Heritage Sites</h4>
-            <span>Home to 5 UNESCO World Heritage Sites including Petra</span>
-          </div>
-
-          <div class="feature">
-            <div class="icon-circle">
-              <i class="mdi mdi-camera-outline"></i>
-            </div>
-            <h4>Incredible Scenery</h4>
-            <span>From deserts to seas, mountains to valleys</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DESTINATIONS -->
-    <section class="destinations">
-      <div class="container">
-        <h2 class="center">Must-Visit Destinations</h2>
-
-          <div class="dest-grid">
-            <DestinationCard
-              v-for="(item, index) in destinations"
-              :key="index"
-              :title="item.title"
-              :img="item.img"
-            />
-          </div>
-      </div>
-    </section>
-
-    <!-- HOTELS -->
-    <section class="hotels">
-      <div class="container">
-        <h2>Partner Hotels with Special Conference Rates</h2>
-        <div class="red-line"></div>
-
-        <div class="hotel-grid">
-          <HotelCard name="Kempinski Hotel Ishtar Dead Sea" price="JOD 140" />
-          <HotelCard name="Hilton Dead Sea Resort & Spa" price="JOD 130" />
-          <HotelCard name="Mövenpick Resort & Spa Dead Sea" price="JOD 255" />
-          <HotelCard name="Marriott Dead Sea Resort & Spa" price="JOD 100" />
         </div>
       </div>
     </section>
@@ -119,171 +117,172 @@ const destinations = [
 </template>
 
 <style scoped>
-.tourism {
-  font-family: Inter, sans-serif;
-  background: #f5f7fa;
-  color: #1e293b;
+.partners-page {
+  --brand-blue: #0d3f9f;
+  --text-dark: #1a2d4f;
+  --text-muted: #6b7792;
+  --panel-bg: #eceef3;
+  --card-bg: #f7f8fb;
+  --card-border: #e1e5ee;
+  min-height: 100%;
+  background: #f2f4f8;
 }
 
-.container {
-  width: 1240px;
-  margin: auto;
+.page-container {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
 }
 
-.center {
-  text-align: center;
-}
-
-/* HERO */
-.hero {
-  background: #123e8a;
-  padding: 90px 0;
+.partners-hero {
+  background: linear-gradient(180deg, #0c3a97 0%, #1147aa 100%);
   color: #fff;
+  padding: 44px 0 52px;
 }
 
-.hero h1 {
-  font-size: 48px;
+.partners-hero h1 {
   margin: 0;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
 }
 
-.underline {
-  width: 80px;
-  height: 3px;
-  background: #ef4444;
-  margin: 15px 0;
+.partners-hero p {
+  margin: 12px 0 0;
+  max-width: 560px;
+  font-size: 1rem;
+  color: #dbe8ff;
 }
 
-/* WHY SECTION */
-.why-section {
-  background: #eef2f7;
-  padding: 80px 0;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+.partners-content {
+  padding: 26px 0 60px;
 }
 
-.why-text {
-  max-width: 700px;
-  margin: 20px auto 50px;
-  color: #64748b;
+.partners-group {
+  background: var(--panel-bg);
+  border-radius: 12px;
+  padding: 14px 14px 16px;
 }
 
-.why-features {
-  display: flex;
-  justify-content: center;
-  gap: 70px;
+.partners-group + .partners-group {
+  margin-top: 14px;
 }
 
-.feature {
-  text-align: center;
-  width: 250px;
-}
-
-.icon-circle {
-  width: 70px;
-  height: 70px;
-  background: #dbeafe;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-}
-
-.icon-circle i {
-  font-size: 30px;
-  color: #123e8a;
-}
-
-/* DESTINATIONS */
-.destinations {
-  padding: 80px 0;
-}
-
-.dest-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:28px;
-  margin-top:50px;
-}
-
-.dest-card {
-  background: #fff;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  transition: 0.3s;
-}
-
-.dest-card:hover {
-  transform: translateY(-6px);
-}
-
-.dest-card img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-}
-
-.dest-body {
-  padding: 25px;
-}
-
-/* HOTELS */
-.hotels {
-  padding: 80px 0;
-}
-
-.red-line {
-  width: 60px;
-  height: 3px;
-  background: #ef4444;
-  margin: 15px 0 40px;
-}
-
-.hotel-grid{
-  display:grid;
-  grid-template-columns:repeat(2, 1fr);
-  gap:28px;
-}
-
-.hotel-card {
-  background: #fff;
-  border-radius: 20px;
-  display: flex;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  align-items: center;
-  gap: 20px;
-}
-
-.hotel-img {
-  width: 200px;
-  height: 200px;
-  border-radius: 20px;
-  background: linear-gradient(45deg, #dbeafe, #93c5fd);
-}
-
-.hotel-info h4 {
-  margin: 0 0 5px;
-}
-
-.stars {
-  color: #facc15;
-  margin-bottom: 5px;
-}
-
-.price {
-  color: #ef4444;
+.partners-group h2 {
+  margin: 2px 6px 12px;
+  color: var(--text-dark);
+  font-size: 1rem;
   font-weight: 700;
 }
 
-button {
-  margin-top: 15px;
-  background: #123e8a;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
+.partners-group h2.partner-tier-title {
+  color: #101828;
+  text-align: left;
+  font-family: Inter, sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: -0.439px;
+}
+
+.partners-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.partners-grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.partners-grid.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.partners-grid.cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.partner-card {
+  min-height: 206px;
+  border-radius: 10px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 10px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.partner-logo-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px 10px;
+}
+
+.partner-logo {
+  width: min(100%, 271.865px);
+  flex: 1 0 0;
+  aspect-ratio: 23 / 22;
+  max-width: 100%;
+  max-height: none;
+  object-fit: contain;
+}
+
+.partner-name {
+  margin: 0;
+  color: #101828;
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.449px;
+  text-align: left;
+}
+
+.strategic-grid .partner-card {
+  min-height: 310px;
+}
+
+.strategic-grid .partner-logo-wrap {
+  padding: 8px;
+}
+
+.strategic-grid .partner-logo {
+  width: min(100%, 442.882px);
+  flex: 1 0 0;
+  aspect-ratio: 23 / 22;
+  max-height: none;
+}
+
+@media (max-width: 1024px) {
+  .partners-grid.cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    width: min(1180px, calc(100% - 24px));
+  }
+
+  .partners-hero {
+    padding: 30px 0 36px;
+  }
+
+  .partners-grid.cols-3,
+  .partners-grid.cols-2,
+  .partners-grid.cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .partner-card {
+    min-height: 156px;
+  }
+
+  .strategic-grid .partner-card {
+    min-height: 240px;
+  }
 }
 </style>

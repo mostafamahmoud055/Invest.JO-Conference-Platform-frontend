@@ -28,6 +28,10 @@
           v-for="(item, i) in opportunities"
           :key="i"
           class="opportunity-card"
+          role="button"
+          tabindex="0"
+          @click="goToOpportunityDetails"
+          @keyup.enter="goToOpportunityDetails"
         >
           <div class="card-header">
 
@@ -62,6 +66,14 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const goToOpportunityDetails = () => {
+  router.push({ name: "InvestmentOpportunitiesDetails" });
+};
+
 const opportunities = [
   {
     type: "Technology & Innovation",
@@ -191,11 +203,17 @@ const opportunities = [
   padding: 22px 22px 20px;
   border: 1px solid #e5e7eb;
   transition: 0.25s ease;
+  cursor: pointer;
 }
 
 .opportunity-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+}
+
+.opportunity-card:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
 
 /* HEADER */
