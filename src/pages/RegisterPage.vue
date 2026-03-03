@@ -49,6 +49,12 @@
           You have successfully registered!
         </template>
       </v-snackbar>
+      <v-snackbar v-model="showErrorMessage" color="error" location="top">
+        <template v-slot:default>
+          <v-icon class="me-2">mdi-alert-circle</v-icon>
+          {{ errorMessage }}
+        </template>
+      </v-snackbar>
 
       <!-- Registration Card -->
       <v-row class="px-4 pb-12 d-block">
@@ -582,7 +588,8 @@
                 color="#003192"
                 class="text-none px-10 rounded-lg text-white"
                 elevation="0"
-                :disabled="!isCurrentStepValid()"
+                :loading="isSubmitting"
+                :disabled="!isCurrentStepValid() || isSubmitting"
                 @click="submitForm"
               >
                 <v-icon start icon="mdi-check-circle-outline"></v-icon> Submit
@@ -596,12 +603,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { watch } from "vue";
+import { submitRegistration } from "@/services/registrationApi";
+
 const router = useRouter();
 const currentStep = ref(1);
 const showSuccessMessage = ref(false);
+const showErrorMessage = ref(false);
+const errorMessage = ref("Failed to submit the form. Please try again.");
+const isSubmitting = ref(false);
 
 const nationalities = [
   "Afghanistan",
@@ -1082,6 +1093,7 @@ const isCurrentStepValid = () => {
       return !!(
         formData.value.jobTitle &&
         formData.value.company &&
+        formData.value.website &&
         formData.value.industry
       );
     case 4:
@@ -1099,17 +1111,44 @@ const isCurrentStepValid = () => {
 };
 
 const submitForm = async () => {
-  if (isCurrentStepValid()) {
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", formData.value);
+  if (!isCurrentStepValid() || isSubmitting.value) return;
 
-    // Show success message
+  try {
+    isSubmitting.value = true;
+    showErrorMessage.value = false;
+
+    const response = await submitRegistration(formData.value);
+    const apiStatus = response?.status?.toString().toLowerCase();
+    const isApiSuccess =
+      response == null ||
+      response?.success === true ||
+      apiStatus === "success" ||
+      apiStatus === "ok";
+
+    if (!isApiSuccess) {
+      throw new Error(response?.message || "Registration failed.");
+    }
+
     showSuccessMessage.value = true;
-
-    // Redirect after delay
-    setTimeout(() => {
-      router.push("/success");
-    }, 2000);
+    router.push({ name: "Success" });
+  } catch (error) {
+    const validationErrors = error?.data?.errors;
+    if (
+      validationErrors &&
+      typeof validationErrors === "object" &&
+      Object.keys(validationErrors).length > 0
+    ) {
+      const firstField = Object.keys(validationErrors)[0];
+      const firstMessage = validationErrors[firstField]?.[0];
+      errorMessage.value =
+        firstMessage || "Please check your form data and try again.";
+    } else {
+      errorMessage.value =
+        error?.message || "Failed to submit the form. Please try again.";
+    }
+    showErrorMessage.value = true;
+  } finally {
+    isSubmitting.value = false;
   }
 };
 </script>
