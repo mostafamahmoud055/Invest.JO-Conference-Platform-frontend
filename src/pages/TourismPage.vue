@@ -156,8 +156,10 @@ const hotels = [
 }
 
 .container {
-  width: 1240px;
-  margin: auto;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .center {
@@ -201,8 +203,26 @@ const hotels = [
   display: flex;
   justify-content: center;
   gap: 70px;
+  flex-wrap: wrap;
+}
+@media (max-width: 1024px) {
+  .why-features {
+    gap: 40px;
+  }
 }
 
+@media (max-width: 768px) {
+  .why-features {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .feature {
+    width: 100%;
+    max-width: 320px;
+  }
+}
 .feature {
   text-align: center;
   width: 250px;
@@ -234,6 +254,18 @@ const hotels = [
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   margin-top: 50px;
+}
+
+@media (max-width: 1024px) {
+  .dest-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .dest-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .dest-card {
@@ -287,6 +319,22 @@ const hotels = [
   gap: 28px;
 }
 
+@media (max-width: 900px) {
+  .hotel-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .hotel-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hotel-img {
+    width: 100%;
+    height: 220px;
+  }
+}
 .hotel-card {
   background: #fff;
   border-radius: 20px;
@@ -326,5 +374,29 @@ button {
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
+}
+@media (max-width: 1024px) {
+  .hero {
+    padding: 70px 0;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 60px 0;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .underline {
+    margin: 15px auto;
+  }
 }
 </style>

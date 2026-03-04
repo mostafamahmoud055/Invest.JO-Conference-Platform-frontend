@@ -86,8 +86,10 @@ const news = [
 }
 
 .container{
-  width:1240px;
+  width:100%;
+  max-width:1240px;
   margin:auto;
+  padding:0 20px;
 }
 
 /* HERO */
@@ -168,5 +170,69 @@ const news = [
   font-size:15px;
   line-height:1.7;
   color:#475569;
+}
+@media (max-width:1024px){
+  .hero{
+    padding:75px 0;
+  }
+
+  .hero h1{
+    font-size:36px;
+  }
+}
+
+@media (max-width:600px){
+  .hero{
+    padding:60px 0;
+    text-align:center;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .underline{
+    margin:18px auto;
+  }
+
+  .hero p{
+    margin:auto;
+    font-size:14px;
+  }
+}
+@media (max-width:1024px){
+  .news-wrapper{
+    padding:30px;
+  }
+}
+
+@media (max-width:768px){
+  .news-wrapper{
+    padding:22px;
+    border-radius:18px;
+  }
+}
+@media (max-width:768px){
+  .news-card{
+    padding:22px;
+  }
+
+  .news-card h3{
+    font-size:16px;
+  }
+
+  .description{
+    font-size:14px;
+  }
+}
+@media (max-width:600px){
+  .meta{
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .meta-item{
+    font-size:13px;
+  }
 }
 </style>

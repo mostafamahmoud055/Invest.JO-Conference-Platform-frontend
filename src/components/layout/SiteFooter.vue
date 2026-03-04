@@ -13,7 +13,7 @@
           <h4 class="footer-title">Quick Links</h4>
           <ul class="footer-list">
             <li v-for="link in quickLinks" :key="link.label">
-              <a :href="link.href">{{ link.label }}</a>
+              <router-link :to="link.to">{{ link.label }}</router-link>
             </li>
           </ul>
         </v-col>
@@ -22,7 +22,7 @@
           <h4 class="footer-title">Participate</h4>
           <ul class="footer-list">
             <li v-for="link in participateLinks" :key="link.label">
-              <a :href="link.href">{{ link.label }}</a>
+              <router-link :to="link.to">{{ link.label }}</router-link>
             </li>
           </ul>
         </v-col>
@@ -69,17 +69,17 @@
 
 <script setup>
 const quickLinks = [
-  { label: "About Conference", href: "#" },
-  { label: "Agenda", href: "#" },
-  { label: "Speakers", href: "#" },
-  { label: "Investment Opportunities", href: "#" },
+  { label: "About Conference", to: { name: "About" } },
+  { label: "Agenda", to: { name: "Agenda" } },
+  { label: "Speakers", to: { name: "Speakers" } },
+  { label: "Investment Opportunities", to: { name: "InvestmentOpportunities" } },
 ];
 
 const participateLinks = [
-  { label: "Register", href: "#" },
-  { label: "Book a Meeting", href: "#" },
-  { label: "Partners", href: "#" },
-  { label: "Contact Us", href: "#" },
+  { label: "Register Invitation", to: { name: "StartRegister" } }, 
+  { label: "Partners", to: { name: "Partners" } },
+  { label: "News Updates", to: { name: "NewsUpdates" } },
+  { label: "Contact", to: { name: "Contact" } },
 ];
 </script>
 

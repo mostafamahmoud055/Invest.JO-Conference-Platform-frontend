@@ -146,8 +146,10 @@ const toggle = (i:number)=>{
 }
 
 .container{
-  width:1240px;
+  width:100%;
+  max-width:1240px;
   margin:auto;
+  padding:0 20px;
 }
 
 /* HERO */
@@ -184,6 +186,18 @@ const toggle = (i:number)=>{
   gap:40px;
 }
 
+@media (max-width:1024px){
+  .contact-grid{
+    gap:28px;
+  }
+}
+
+@media (max-width:900px){
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+}
+
 .card{
   background:#eef2f7;
   border-radius:26px;
@@ -202,6 +216,51 @@ const toggle = (i:number)=>{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:20px;
+}
+
+@media (max-width:600px){
+  .row{
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width:768px){
+  .card{
+    padding:24px;
+    border-radius:18px;
+  }
+
+  .card h2{
+    font-size:18px;
+  }
+}
+@media (max-width:600px){
+  .info-item{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .icon{
+    width:38px;
+    height:38px;
+  }
+}
+@media (max-width:768px){
+  .faq-wrapper{
+    padding:24px;
+    border-radius:18px;
+  }
+
+  .faq-item{
+    padding:16px 18px;
+  }
+
+  .faq-title{
+    font-size:14px;
+  }
+
+  .faq-content{
+    font-size:13px;
+  }
 }
 
 label{
@@ -293,4 +352,33 @@ textarea{
   margin-top:12px;
   font-size:14px;
   color:#64748b;
-}</style>
+}
+@media (max-width:1024px){
+  .hero{
+    padding:75px 0;
+  }
+
+  .hero h1{
+    font-size:36px;
+  }
+}
+
+@media (max-width:600px){
+  .hero{
+    padding:60px 0;
+    text-align:center;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .underline{
+    margin:18px auto;
+  }
+
+  .hero p{
+    font-size:14px;
+  }
+}
+</style>
